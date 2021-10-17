@@ -1,17 +1,15 @@
 {
-  "name": "my-webpack-project",
+  "name": "Capstone-travel-app",
   "version": "1.0.0",
-  "description": "My webpack project",
-  "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest -c ./jest.config.js",
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
     "serve": "webpack serve"
   },
-  "author": "",
+  "author": "Jessica Nicholl",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.15.5",
@@ -33,10 +31,5 @@
     "webpack-cli": "^4.9.0",
     "webpack-dev-server": "^4.3.0",
     "workbox-webpack-plugin": "^6.3.0"
-  },
-  "jest": {
-    "setupFilesAfterEnv": [
-      "./__test__/setupTests.js"
-    ]
   }
 }
