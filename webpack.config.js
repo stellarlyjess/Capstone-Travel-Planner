@@ -10,11 +10,14 @@ const { HotModuleReplacementPlugin } = require('webpack');
 
 const isProduction = process.env.NODE_ENV == 'production';
 
+const jsEntry = './src/client/index.js';
+
 const config = {
-    entry: './src/client/index.js',
+    entry: jsEntry,
     output: {
         path: path.resolve(__dirname, 'dist'),
     },
+    devtool: "source-map",
     target: 'web',
     devServer: {
         host: 'localhost',
@@ -25,7 +28,7 @@ const config = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './src/client/html/views/index.html',
+            template: './src/client/html/index.html',
             filename: 'index.html'
         }),
         new MiniCssExtractPlugin(),
@@ -38,8 +41,24 @@ const config = {
     module: {
         rules: [
             {
-                test: /\.(js|jsx)$/i,
-                loader: 'babel-loader',
+                test: /\.js$/,
+                enforce: "pre",
+                use: ["source-map-loader"],
+            },
+            {
+                test: /\.html$/i,
+                loader: "html-loader",
+            },
+            {
+                test: /\.m?js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env'],
+                        plugins: ['@babel/plugin-proposal-optional-chaining']
+                    }
+                }
             },
             {
                 test: /\.s[ac]ss$/i,
