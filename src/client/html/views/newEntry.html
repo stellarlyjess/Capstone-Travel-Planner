@@ -1,11 +1,57 @@
 <div id="entry-info-holder">
-    <h3 id="entry-title"> "My trip to: Some place" </h3>
-    <div id="entry-submit-buttons">
-        <button id="entry-save">save trip</button>
-        <button id="entry-delete">remove trip</button>
+    <div id="entry-img"></div>
+    <h3 id="entry-title"></h3>
+    <h3>start date</h3>
+    <p id="entry-startDate"></p>
+    <h3>end date</h3>
+    <p id="entry-endDate"></p>
+    <h3>trip length</h3>
+    <p id="entry-length"></p>
+    <h3>days until trip</h3>
+    <p id="entry-countdown"></p>
+    <h3>typical weather</h3>
+    <!-- Weather icons modified from <a href="https://dribbble.com/shots/2097042-Widget-Weather" target="_blank">Dribbble</a> by kylor -->
+    <div class="icon" id="sunShower">
+        <div class="cloud"></div>
+        <div class="sun">
+            <div class="rays"></div>
+        </div>
+        <div class="rain"></div>
     </div>
-    <p id="entry-countdown"> "Amount of time until trip"</p>
-    <p id="entry-weather">Typical weather for then is:</p>
+
+    <div class="icon" id="thunderStorm">
+        <div class="cloud"></div>
+        <div class="lightning">
+            <div class="bolt"></div>
+            <div class="bolt"></div>
+        </div>
+    </div>
+
+    <div class="icon" id="cloudSky">
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+    </div>
+
+    <div class="icon" id="flurries">
+        <div class="cloud"></div>
+        <div class="snow">
+            <div class="flake"></div>
+            <div class="flake"></div>
+        </div>
+    </div>
+
+    <div class="icon" id="sunny">
+        <div class="sun">
+            <div class="rays"></div>
+        </div>
+    </div>
+
+    <div class="icon" id="rain">
+        <div class="cloud"></div>
+        <div class="rain"></div>
+    </div>
+    <div id="desc"></div>
+    <div id="content"></div>
     <section>
         <p>High: -</p>
         <p id="weather-high"></p>
@@ -15,5 +61,6 @@
         <p>Low -</p>
         <p id="weather-low"></p>
     </section>
-    <p id="weather-specifics">Mostly cloudy throughout the day</p>
+    <p id="weather-desc"></p>
+    <button id="entry-remove">remove trip</button>
 </div>

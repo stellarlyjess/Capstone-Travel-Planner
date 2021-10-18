@@ -1,33 +1,52 @@
 // File containing functions associated with adding a new travel entry
 import { renderEntry } from './common.js'
+import { parse, differenceInDays } from 'date-fns';
 
-// (0) Create event listener to call generate post function when post button is clicked (need to call this in src/client/index.js)
+// (0) Create event listener to call generate post function when post button is clicked
 export function registerSubmitEvent() {
-    document.getElementById('entry-save').addEventListener('click', addEntry);
+    document.getElementById('entry-submit').addEventListener('click', addEntry);
 }
 
 // (1) Main function: pull api data, then store data in consts to use, then call add entry function to set keys, then update the UI
 async function addEntry(event) {
-    // if (!validateInputs(zipCode, feel)) return; TODO: validate inputs
     event.preventDefault();
     try {
         const entryCreationDate = new Date();
-        const entryStart = document.getElementById('entry-start').value;
-        const entryEnd = document.getElementById('entry-end').value;
-        const entryCity = document.querySelector('.entry-city').value;
-        const newEntry = await submitEntry('/entry', { // See addEntry function for return val
+        const entryStart = document.getElementById('entry-start');
+        const entryEnd = document.getElementById('entry-end');
+        const entryCity = document.querySelector('.entry-city');
+        const entryCountry = document.querySelector('.entry-country');
+
+        if (!validateInputs(entryStart, entryEnd, entryCity)) return;
+
+        getCountdownDays(entryStart.value);
+        // See addEntry function for return val
+        const newEntry = await submitEntry('/entry', {
             date: entryCreationDate,
-            startDate: entryStart,
-            endDate: entryEnd,
-            city: entryCity,
-            countdown: getCountdownDays(entryStart)
+            startDate: entryStart.value,
+            endDate: entryEnd.value,
+            city: entryCity.value,
+            country: entryCountry.value,
+            countdown: getCountdownDays(entryStart.value),
+            tripLength: getTripLength(entryStart.value, entryEnd.value)
         });
 
-        // TODO: use renderEntry function to update UI for new entry
-        // (4) Entries.renderEntry(newEntry);
+        console.log(JSON.stringify(newEntry))
+
+        // (4) use renderEntry function to update UI for new entry
+        renderEntry(newEntry);
 
         // (5) TODO: clear all inputs after successful fetch POST
-        a
+
+        const userFields = document.querySelectorAll('.userFields');
+        for (const userField of userFields) {
+            if (userField?.nodeName === 'SELECT') {
+                userField.selectedIndex = 0;
+            } else {
+                userField.value = null;
+            }
+        }
+
     } catch (e) {
         const errEl = document.getElementById('errBox');
         console.error(e);
@@ -61,11 +80,20 @@ export function validateInputs(...inputs) {
 // and gets the number of days until then from the current date.
 export function getCountdownDays(inputValue) {
     const datefnsFormattedDate = inputValue.replace(/-/g, '/');
-    const date = parse(datefnsFormattedDate, 'yyyy/MM/dd', new Date());
-    const countdown = differenceInDays(date, new Date());
+    const date = parse(datefnsFormattedDate, 'yyyy/MM/dd', new Date()); // convert yyyy/MM/dd into javascript Date() format
+    const countdown = differenceInDays(date, new Date()); // get difference between days of today and the start date of the travel entry
+    console.log(`countdown days is: ${countdown}`)
     return countdown;
 }
 
+export function getTripLength(startDate, endDate) {
+    const startDatefnsFormatted = startDate.replace(/-/g, '/');
+    const startDateForm = parse(startDatefnsFormatted, 'yyyy/MM/dd', new Date());
+    const endDatefnsFormatted = endDate.replace(/-/g, '/');
+    const endDateForm = parse(endDatefnsFormatted, 'yyyy/MM/dd', new Date());
+    const tripLength = differenceInDays(endDateForm, startDateForm);
+    return tripLength;
+}
 
 // (3) Perform actual fetch call to server to store new travel entry
 async function submitEntry(url = '', data = {}) {
@@ -78,22 +106,13 @@ async function submitEntry(url = '', data = {}) {
         body: JSON.stringify(data),
     });
 
+    let newData = null;
     try {
         if (res.status !== 200) {
             console.error(`Add Entry received error: ${res.status}`);
+        } else {
+            newData = await res.json();
         }
-        // TODO: Server will return data to client after the POST finishes
-        // Single object that looks like this:
-        /*
-            {
-                entryTitle: val,
-                countdown: val,
-                highTemp: val,
-                lowTemp: val,
-                weatherInfo: val
-            }
-        */
-        const newData = await res.json();
     } catch (error) {
         // If something goes wrong send error message
         console.log('An error has occured', error);

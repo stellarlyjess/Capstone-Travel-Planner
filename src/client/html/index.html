@@ -14,26 +14,29 @@
     <h1>Travel Planner</h1>
 
     <div id="entry-container">
-        <div id="entry-img-holder">
+        <!-- <div id="entry-img-holder">
             <img id="entry-img">
-        </div>
+        </div> -->
 
         <div id="entry-info-holder">
-            <input type="date" id="entry-start" value="2021-01-01" placeholder="Enter start date">
-            <input type="date" id="entry-end" value="2021-01-01" placeholder="Enter end date">
+            <div>Enter start date</div>
+            <input type="date" id="entry-start" class="userFields">
+            <div>Enter end date</div>
+            <input type="date" id="entry-end" class="userFields">
             <br>
             <!-- https://net-raft.com/Questions/2627/dropdown-list-of-country-state-and-city-using-javascript/2627 -->
-            <select name="country" class="countries" id="countryId">
-                <option value="">Select Country</option>
+            <select name="country" class="userFields countries entry-country" id="countryId">
+                <option selected value="">Select Country</option>
             </select>
-            <select name="state" class="states" id="stateId">
-                <option value="">Select State</option>
+            <select name="state" class="userFields states" id="stateId">
+                <option selected value="">Select State</option>
             </select>
-            <select name="city" class="cities entry-city" id="cityId">
-                <option value="">Select City</option>
+            <select name="city" class="userFields cities entry-city" id="cityId">
+                <option selected value="">Select City</option>
             </select>
             <button id="entry-submit">save trip</button>
             <br>
+            <div id="errBox"></div>
         </div>
 
 

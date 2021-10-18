@@ -11,22 +11,27 @@ export function renderEntry(lastEntry) {
     const fragment = document.createDocumentFragment();
     fragment.appendChild(node);
 
-
     // setBackground(lastEntry.main); TODO: refactor this to work
-    fragment.getElementById('entry-title').innerHTML = lastEntry.entryTitle;
+    fragment.getElementById('entry-img').style.backgroundImage = `url(${lastEntry.imgURL})`;
+    fragment.getElementById('entry-title').innerHTML = `${lastEntry.city}, ${lastEntry.country}`;
+    fragment.getElementById('entry-startDate').innerHTML = lastEntry.startDate;
+    fragment.getElementById('entry-endDate').innerHTML = lastEntry.endDate;
+    fragment.getElementById('entry-length').innerHTML = lastEntry.tripLength;
     fragment.getElementById('entry-countdown').innerHTML = lastEntry.countdown;
-    fragment.getElementById('weather-high').innerHTML = `${lastEntry.highTemp}°F`;
-    fragment.getElementById('weather-low').innerHTML = `${lastEntry.lowTemp}°F`;
-    fragment.getElementById('weather-specifics').innerHTML = `${lastEntry.weatherInfo}`;
+    fragment.getElementById('weather-high').innerHTML = `${lastEntry.max_temp}°F`;
+    fragment.getElementById('weather-low').innerHTML = `${lastEntry.min_temp}°F`;
+    fragment.getElementById('weather-desc').innerHTML = `${lastEntry.description}`;
     // Create a unique identifier for each HTML entry holder div to be the creation date of the entry for easy removal from front end
-    fragment.getElementById('entry-info-holder').setAttribute('id', `entry-info-holder-${lastEntry.creationDate}`)
+    fragment.getElementById('entry-info-holder').setAttribute('id', `entry-info-holder-${lastEntry.entryCreationDate}`)
 
     // Add the new entry HTML to the actual DOM
     document.body.appendChild(fragment);
 }
 
+const weatherCode = lastEntry.code
+
 // Map for API conditions to weather icons
-const backgroundIconMap = {
+const weatherIconMap = {
     Clear: 'sunny',
     Clouds: 'cloudSky',
     Rain: 'rain',
@@ -36,37 +41,19 @@ const backgroundIconMap = {
     Mist: 'cloudSky',
 };
 
-// Switch conditions for changing the background of the API depending on the weather condition from API
-function setBackground(weatherMain) {
-    let weatherStyle = null;
-    const background = document.getElementById('bound');
-    background.removeAttribute('class');
-    switch (weatherMain) {
-        case 'Clear':
-            weatherStyle = 'clear';
-            break;
-        case 'Clouds':
-            weatherStyle = 'cloudy';
-            break;
-        case 'Rain': // Purposeful fallthrough
-        case 'Drizzle':
-            weatherStyle = 'rainy';
-            break;
-        default:
-            weatherStyle = 'stormy';
-            break;
-    }
+// // Switch conditions for changing the background of the API depending on the weather condition from API
+function setWeatherIcon(weatherCode) {
 
     // Clear icons displayed
-    Object.values(backgroundIconMap).forEach(element => {
+    Object.values(weatherIconMap).forEach(element => {
         document.getElementById(element).style.display = 'none';
     });
 
-    const iconClassName = backgroundIconMap[weatherMain];
+    const iconClassName = weatherIconMap[weatherCode];
     if (iconClassName) {
         document.getElementById(iconClassName).style.display = 'initial';
     }
 
-    background.classList.add(weatherStyle);
+    // background.classList.add(weatherStyle);
 }
 
