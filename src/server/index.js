@@ -1,9 +1,9 @@
-// Store base Api url and api key
-const baseURL = 'http://api.openweathermap.org/data/2.5/weather?zip=';
-const apiKey = '&appid=220ce18603990fadb07de146cfeee1a6&units=imperial';
+const dotenv = require('dotenv');
+const path = require('path');
+const dateFns = require('date-fns')
 
-// Setup empty JS object to act as endpoint for all routes
-let travelEntries = {};
+// inject .env file variables
+dotenv.config()
 
 // Require Express to run server and routes
 const express = require('express');
@@ -24,39 +24,79 @@ app.use(cors());
 // Initialize the main project folder
 app.use(express.static('dist'));
 
+app.get('/', function (req, res) {
+    res.sendFile('dist/index.html');
+})
+
 // Setup Server
 const port = 8000;
 const server = app.listen(port, () => console.log(`Listening on port: ${port}`));
 
-const getWeatherApi = async (baseURL, apiKey) => {
-    const res = await fetch(`${baseURL}?apiKey=${apiKey}`);
-    try {
-        const apiData = await res.json();
-        console.log(apiData);
-        return apiData;
-    } catch (error) {
-        console.log('an error has occured', error);
-    }
+const travelEntries = [];
+
+async function getGeonameData(city) {
+    const geoUserName = process.env.GEO_USER;
+    const geoBaseURL = "http://api.geonames.org/searchJSON?";
+    const geoRes = await fetch(`${geoBaseURL}q=${city}&maxRows=1&username=${geoUserName}`);
+    const geoJson = await geoRes.json();
+    return geoJson.geonames[0];
 }
 
-// Setup GET Route
-app.get('/all', (req, res) => {
-    console.log('sending all travel entries.');
-    res.send(travelEntries);
+async function getPixabayImg(city, countryName) {
+    const pixaApiKey = process.env.PIXA_API_KEY;
+    let imgURL = '';
+    const pixaBaseURL = "https://pixabay.com/api/";
+    const pixaResCity = await fetch(`${pixaBaseURL}?key=${pixaApiKey}&q=${city}&category=places&orientation=horizontal&image_type=photo`);
+    let pixaJson = await pixaRes.json();
+    let imgURL = pixaJson.hits[0].webformatURL;
+    if (imgURL === '') {
+        const pixaResCountry = await fetch(`${pixaBaseURL}?key=${pixaApiKey}&q=${countryName}&category=places&orientation=horizontal&image_type=photo`);
+        pixaJson = await pixaRes.json();
+        imgURL = pixaJson.hits[0].webformatURL;
+    }
+    return imgURL;
+}
+
+app.post('/entry', async (req, res) => {
+    const weatherApiKey = process.env.BIT_API_KEY;
+    const city = req.body.city;
+    const startDate = req.body.startDate;
+    const endDate = req.body.endDate;
+    // Setup empty JS object to act as endpoint for all routes
+    let travelEntry = {};
+
+    try {
+
+        const { lat, lng, name, countryName, countryCode } = await getGeonameData(city);
+        const imgURL = await getPixabayImg(city, countryName);
+
+
+        dateFns.intervalToDuration({
+
+        });
+
+        const weatherBaseURL = "https://api.weatherbit.io/v2.0";
+        if (countdown < 16) {
+            const weatherRes = await fetch(`${weatherBaseURL}/forcast/daily&lat=${geonames.lat}&lon=${geonames.lng}&units=I&key=${weatherApiKey}`);
+            const weatherJson = await weatherRes.jsDon();
+            let { weather, max_temp, min_temp } = weatherJson.data[countdown];
+        }
+        else {
+            /*
+                 dateFns.format(new Date(), 'yyyy-dd-MM')
+            */
+            const weatherRes = await fetch(`${weatherBaseURL}/history/daily&lat=${geonames.lat}&lon=${geonames.lng}&start_date=${startDate}&end_date=${endDate}&units=I&key=${weatherApiKey}`);
+            const weatherJson = await weatherRes.json();
+            let description = 'Trip is too far away for weather forcast, This is historic weather data for this time of year'
+            let { max_temp, min_temp } = weatherJson.data[countdown];
+        }
+    } catch (error) {
+        console.log('an error has occured', error)
+    }
 });
 
-// POST a journal entry
-app.post('/addEntry', async (req, res) => {
-
-
-    // TODO: fetch api data for new travel entry
-    const weatherRes = await getWeatherApi();
-    const apiData = await weatherRes.json();
-    const tmp = apiData.main.temp;
-    const name = apiData.name;
-    const weatherMain = apiData.weather[0].main;
-    const weatherDesc = apiData.weather[0].description;
-
-    travelEntries[`${Date.now()}`] = req.body;
-    res.send('A post was made'); // TODO: return fetched apis infos to client after storing new entry in server
+// Setup GET Route
+app.get('/entry', (req, res) => {
+    console.log('sending all travel entries.');
+    res.send(travelEntries);
 });
