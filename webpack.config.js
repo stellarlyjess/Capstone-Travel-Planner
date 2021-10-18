@@ -10,7 +10,7 @@ const { HotModuleReplacementPlugin } = require('webpack');
 
 const isProduction = process.env.NODE_ENV == 'production';
 
-const jsEntry = './src/client/index.js';
+const jsEntry = './src/client/js/index.js';
 
 const config = {
     entry: jsEntry,

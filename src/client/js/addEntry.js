@@ -1,9 +1,9 @@
 // File containing functions associated with adding a new travel entry
 import { renderEntry } from './common.js'
 
-// Create event listener to call generate post function when post button is clicked
-function registerSubmitEvent() {
-    document.getElementById('<id_of_button>').addEventListener('click', addEntry);
+// (0) Create event listener to call generate post function when post button is clicked (need to call this in src/client/index.js)
+export function registerSubmitEvent() {
+    document.getElementById('entry-save').addEventListener('click', addEntry);
 }
 
 // (1) Main function: pull api data, then store data in consts to use, then call add entry function to set keys, then update the UI
@@ -11,21 +11,23 @@ async function addEntry(event) {
     // if (!validateInputs(zipCode, feel)) return; TODO: validate inputs
     event.preventDefault();
     try {
-        const d = new Date();
-        const newDate = d.getMonth() + 1 + '.' + d.getDate() + '.' + d.getFullYear();
+        const entryCreationDate = new Date();
         const entryStart = document.getElementById('entry-start').value;
         const entryEnd = document.getElementById('entry-end').value;
-        const entryCity = document.getElementById('entry-city').value;
-        const newEntry = await addEntry('/addEntry', { // See addEntry function for return val
-            date: newDate,
+        const entryCity = document.querySelector('.entry-city').value;
+        const newEntry = await submitEntry('/entry', { // See addEntry function for return val
+            date: entryCreationDate,
             startDate: entryStart,
             endDate: entryEnd,
             city: entryCity,
+            countdown: getCountdownDays(entryStart)
         });
 
         // TODO: use renderEntry function to update UI for new entry
-        // (4) Entries.renderEntry(renderEntry);
+        // (4) Entries.renderEntry(newEntry);
 
+        // (5) TODO: clear all inputs after successful fetch POST
+        a
     } catch (e) {
         const errEl = document.getElementById('errBox');
         console.error(e);
@@ -53,6 +55,15 @@ export function validateInputs(...inputs) {
     }
 
     return !isInvalid;
+}
+
+// function which accepts an date inputValue in the format of yyyy-MM-dd e.g. 2021-01-29
+// and gets the number of days until then from the current date.
+export function getCountdownDays(inputValue) {
+    const datefnsFormattedDate = inputValue.replace(/-/g, '/');
+    const date = parse(datefnsFormattedDate, 'yyyy/MM/dd', new Date());
+    const countdown = differenceInDays(date, new Date());
+    return countdown;
 }
 
 
@@ -89,4 +100,3 @@ async function submitEntry(url = '', data = {}) {
     }
     return newData;
 };
-
