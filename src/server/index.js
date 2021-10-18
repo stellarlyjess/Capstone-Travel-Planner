@@ -1,6 +1,7 @@
 const dotenv = require('dotenv');
 const path = require('path');
-const dateFns = require('date-fns')
+const dateFns = require('date-fns');
+const got = require('got');
 
 // inject .env file variables
 dotenv.config()
@@ -37,62 +38,85 @@ const travelEntries = [];
 async function getGeonameData(city) {
     const geoUserName = process.env.GEO_USER;
     const geoBaseURL = "http://api.geonames.org/searchJSON?";
-    const geoRes = await fetch(`${geoBaseURL}q=${city}&maxRows=1&username=${geoUserName}`);
-    const geoJson = await geoRes.json();
+    const geoRes = await got(`${geoBaseURL}q=${city}&maxRows=1&username=${geoUserName}`);
+    const geoJson = JSON.parse(geoRes.body);
     return geoJson.geonames[0];
 }
 
 async function getPixabayImg(city, countryName) {
     const pixaApiKey = process.env.PIXA_API_KEY;
-    let imgURL = '';
-    const pixaBaseURL = "https://pixabay.com/api/";
-    const pixaResCity = await fetch(`${pixaBaseURL}?key=${pixaApiKey}&q=${city}&category=places&orientation=horizontal&image_type=photo`);
-    let pixaJson = await pixaRes.json();
-    let imgURL = pixaJson.hits[0].webformatURL;
-    if (imgURL === '') {
-        const pixaResCountry = await fetch(`${pixaBaseURL}?key=${pixaApiKey}&q=${countryName}&category=places&orientation=horizontal&image_type=photo`);
-        pixaJson = await pixaRes.json();
-        imgURL = pixaJson.hits[0].webformatURL;
+    const pixaBaseURL = "https://pixabay.com/api";
+    const pixaRes = await got(`${pixaBaseURL}?key=${pixaApiKey}&q=${city}&category=places&orientation=horizontal&image_type=photo`);
+    const pixaJson = JSON.parse(pixaRes.body);
+    let imgURL = pixaJson.hits[0]?.webformatURL;
+    if (!imgURL) {
+        const pixaResCountry = await got(`${pixaBaseURL}?key=${pixaApiKey}&q=${countryName}`);
+        const pixaCountryJson = JSON.parse(pixaResCountry.body);
+        imgURL = pixaCountryJson.hits[0]?.webformatURL;
     }
-    return imgURL;
+    console.log(`imgURL hits was: ${imgURL}`)
+    return { imgURL: imgURL };
+}
+
+async function getWeatherbitData(geonames, countdown) {
+    const weatherApiKey = process.env.BIT_API_KEY;
+    const weatherBaseURL = "https://api.weatherbit.io/v2.0/forecast/daily";
+    const weatherBitData = {
+        description: null,
+        code: null,
+        max_temp: null,
+        min_temp: null
+    };
+    if (countdown < 16) {
+        const weatherRes = await got(`${weatherBaseURL}?lat=${geonames.lat}&lon=${geonames.lng}&units=I&key=${weatherApiKey}`);
+        const weatherJson = JSON.parse(weatherRes.body);
+        const firstDayOfWeather = weatherJson.data[countdown];
+        weatherBitData.description = firstDayOfWeather?.weather?.description;
+        weatherBitData.code = firstDayOfWeather?.weather?.code;
+        weatherBitData.max_temp = firstDayOfWeather?.max_temp;
+        weatherBitData.min_temp = firstDayOfWeather?.min_temp;
+    } else {
+        weatherBitData = null;
+    }
+    return weatherBitData;
 }
 
 app.post('/entry', async (req, res) => {
-    const weatherApiKey = process.env.BIT_API_KEY;
     const city = req.body.city;
     const startDate = req.body.startDate;
     const endDate = req.body.endDate;
+    const country = req.body.country;
+    const countdown = req.body.countdown;
+    const entryCreationDate = req.body.date;
+    const tripLength = req.body.tripLength;
     // Setup empty JS object to act as endpoint for all routes
     let travelEntry = {};
 
     try {
+        const [geonames, imgURL] = await Promise.all([
+            await getGeonameData(city),
+            await getPixabayImg(city, country)
+        ]);
+        const weatherBitData = await getWeatherbitData(geonames, countdown)
+        travelEntry = {
+            countdown,
+            country,
+            city,
+            startDate,
+            endDate,
+            entryCreationDate,
+            tripLength,
+            ...weatherBitData,
+            ...imgURL
+        };
+        console.log(`travel entry is: ${JSON.stringify(travelEntry)}`)
 
-        const { lat, lng, name, countryName, countryCode } = await getGeonameData(city);
-        const imgURL = await getPixabayImg(city, countryName);
-
-
-        dateFns.intervalToDuration({
-
-        });
-
-        const weatherBaseURL = "https://api.weatherbit.io/v2.0";
-        if (countdown < 16) {
-            const weatherRes = await fetch(`${weatherBaseURL}/forcast/daily&lat=${geonames.lat}&lon=${geonames.lng}&units=I&key=${weatherApiKey}`);
-            const weatherJson = await weatherRes.jsDon();
-            let { weather, max_temp, min_temp } = weatherJson.data[countdown];
-        }
-        else {
-            /*
-                 dateFns.format(new Date(), 'yyyy-dd-MM')
-            */
-            const weatherRes = await fetch(`${weatherBaseURL}/history/daily&lat=${geonames.lat}&lon=${geonames.lng}&start_date=${startDate}&end_date=${endDate}&units=I&key=${weatherApiKey}`);
-            const weatherJson = await weatherRes.json();
-            let description = 'Trip is too far away for weather forcast, This is historic weather data for this time of year'
-            let { max_temp, min_temp } = weatherJson.data[countdown];
-        }
     } catch (error) {
         console.log('an error has occured', error)
     }
+
+    travelEntries[entryCreationDate] = travelEntry;
+    res.send(travelEntry);
 });
 
 // Setup GET Route
