@@ -2,20 +2,28 @@
 // Used the command: `npx webpack-cli init` to generate this webpack 5 boilerplate
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const { HotModuleReplacementPlugin } = require('webpack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 
 const isProduction = process.env.NODE_ENV == 'production';
 
-const jsEntry = './src/client/js/index.js';
+const jsEntry = './src/client/index.js';
+
+let devPlugins = [];
+if (!isProduction) {
+    devPlugins = [new CleanWebpackPlugin(), new HotModuleReplacementPlugin()]
+}
 
 const config = {
     entry: jsEntry,
     output: {
         path: path.resolve(__dirname, 'dist'),
+    },
+    resolve: {
+        extensions: ['js', '*']
     },
     devtool: "source-map",
     target: 'web',
@@ -27,17 +35,16 @@ const config = {
         port: 8080,
     },
     plugins: [
+        isProduction && new MiniCssExtractPlugin(),
         new HtmlWebpackPlugin({
             template: './src/client/html/index.html',
             filename: 'index.html'
         }),
-        new MiniCssExtractPlugin(),
-        new CleanWebpackPlugin(),
-        new HotModuleReplacementPlugin(),
-
-        // Add your plugins here
-        // Learn more about plugins from https://webpack.js.org/configuration/plugins/
+        ...devPlugins
     ],
+    stats: {
+        colors: true
+    },
     module: {
         rules: [
             {
@@ -56,21 +63,18 @@ const config = {
                     loader: 'babel-loader',
                     options: {
                         presets: ['@babel/preset-env'],
-                        plugins: ['@babel/plugin-proposal-optional-chaining']
+                        plugins: ['@babel/plugin-proposal-optional-chaining', '@babel/plugin-transform-runtime']
                     }
                 }
             },
             {
-                test: /\.s[ac]ss$/i,
-                use: ['style-loader', 'css-loader', 'sass-loader'],
+                test: /\.scss$/,
+                use: [(isProduction ? MiniCssExtractPlugin.loader : 'style-loader'), 'css-loader', 'sass-loader'],
             },
             {
                 test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
                 type: 'asset',
-            },
-
-            // Add your rules for custom modules here
-            // Learn more about loaders from https://webpack.js.org/loaders/
+            }
         ],
     },
 };
@@ -79,8 +83,8 @@ module.exports = () => {
     if (isProduction) {
         config.mode = 'production';
 
-
-        config.plugins.push(new WorkboxWebpackPlugin.GenerateSW());
+        // TODO: uncomment this when production ready
+        // config.plugins.push(new WorkboxWebpackPlugin.GenerateSW());
 
     } else {
         config.mode = 'development';
