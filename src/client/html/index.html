@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <title>Capstone Travel Planner</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <!-- https://net-raft.com/Questions/2627/dropdown-list-of-country-state-and-city-using-javascript/2627 -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//geodata.solutions/includes/countrystatecity.js"></script>
 </head>
 
 <body>
@@ -16,10 +19,19 @@
         </div>
 
         <div id="entry-info-holder">
-            <input id="entry-start" placeholder="Enter start date">
-            <input id="entry-end" placeholder="Enter end date">
+            <input type="date" id="entry-start" value="2021-01-01" placeholder="Enter start date">
+            <input type="date" id="entry-end" value="2021-01-01" placeholder="Enter end date">
             <br>
-            <input id="entry-city" placeholder="Enter city for trip">
+            <!-- https://net-raft.com/Questions/2627/dropdown-list-of-country-state-and-city-using-javascript/2627 -->
+            <select name="country" class="countries" id="countryId">
+                <option value="">Select Country</option>
+            </select>
+            <select name="state" class="states" id="stateId">
+                <option value="">Select State</option>
+            </select>
+            <select name="city" class="cities entry-city" id="cityId">
+                <option value="">Select City</option>
+            </select>
             <button id="entry-submit">save trip</button>
             <br>
         </div>
