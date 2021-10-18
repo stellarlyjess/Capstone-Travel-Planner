@@ -27,7 +27,6 @@ async function addEntry(event) {
             endDate: entryEnd.value,
             city: entryCity.value,
             country: entryCountry.value,
-            countdown: getCountdownDays(entryStart.value),
             tripLength: getTripLength(entryStart.value, entryEnd.value)
         });
 

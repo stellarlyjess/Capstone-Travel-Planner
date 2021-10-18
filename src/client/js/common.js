@@ -1,5 +1,7 @@
 // File with functions shared between 'adding' and 'getting (all entries)' travel entry functionality
 import newEntryHtml from '../html/views/newEntry.html';
+import { registerRemoveEvent } from './removeEntry.js';
+import { getCountdownDays } from './addEntry.js';
 
 // Renders a travel entry into the UI
 export function renderEntry(lastEntry) {
@@ -11,49 +13,50 @@ export function renderEntry(lastEntry) {
     const fragment = document.createDocumentFragment();
     fragment.appendChild(node);
 
-    // setBackground(lastEntry.main); TODO: refactor this to work
-    fragment.getElementById('entry-img').style.backgroundImage = `url(${lastEntry.imgURL})`;
-    fragment.getElementById('entry-title').innerHTML = `${lastEntry.city}, ${lastEntry.country}`;
-    fragment.getElementById('entry-startDate').innerHTML = lastEntry.startDate;
-    fragment.getElementById('entry-endDate').innerHTML = lastEntry.endDate;
-    fragment.getElementById('entry-length').innerHTML = lastEntry.tripLength;
-    fragment.getElementById('entry-countdown').innerHTML = lastEntry.countdown;
-    fragment.getElementById('weather-high').innerHTML = `${lastEntry.max_temp}°F`;
-    fragment.getElementById('weather-low').innerHTML = `${lastEntry.min_temp}°F`;
-    fragment.getElementById('weather-desc').innerHTML = `${lastEntry.description}`;
+    fragment.querySelector('.entry-img').style.backgroundImage = `url(${lastEntry.imgURL})`;
+    fragment.querySelector('.entry-title').innerHTML = `${lastEntry.city}, ${lastEntry.country}`;
+    fragment.querySelector('.entry-startDate').innerHTML = lastEntry.startDate;
+    fragment.querySelector('.entry-endDate').innerHTML = lastEntry.endDate;
+    fragment.querySelector('.entry-length').innerHTML = lastEntry.tripLength;
+    // countdown days can change because it uses current date, therefore must be set everytime renderEntry is called
+    fragment.querySelector('.entry-countdown').innerHTML = getCountdownDays(lastEntry.startDate);
+    fragment.querySelector('.weather-high').innerHTML = `${lastEntry.max_temp}°F`;
+    fragment.querySelector('.weather-low').innerHTML = `${lastEntry.min_temp}°F`;
+    fragment.querySelector('.weather-desc').innerHTML = `${lastEntry.description}`;
     // Create a unique identifier for each HTML entry holder div to be the creation date of the entry for easy removal from front end
-    fragment.getElementById('entry-info-holder').setAttribute('id', `entry-info-holder-${lastEntry.entryCreationDate}`)
+    fragment.querySelector('.entry-info-holder').setAttribute('id', `entry-info-holder-${lastEntry.entryCreationDate}`)
+    fragment.querySelector('.entry-info-holder').setAttribute('data-entryid', lastEntry.entryCreationDate)
+    const weatherCode = lastEntry.code;
+    setWeatherIcon(weatherCode, fragment);
+
+    registerRemoveEvent(fragment.querySelector('.entry-remove'));
 
     // Add the new entry HTML to the actual DOM
     document.body.appendChild(fragment);
 }
 
-const weatherCode = lastEntry.code
-
-// Map for API conditions to weather icons
+// Mappings between weather codes and HTML element IDs
 const weatherIconMap = {
-    Clear: 'sunny',
-    Clouds: 'cloudSky',
-    Rain: 'rain',
-    Drizzle: 'sunShower',
-    Snow: 'flurries',
-    Thunderstorm: 'thunderStorm',
-    Mist: 'cloudSky',
+    'sunny': [800, 801],
+    'cloudSky': [802, 900],
+    'rainy': [500, 522],
+    'sunShower': [300, 302],
+    'flurries': [600, 623],
+    'thunderStorm': [200, 233],
 };
 
 // // Switch conditions for changing the background of the API depending on the weather condition from API
-function setWeatherIcon(weatherCode) {
-
+function setWeatherIcon(weatherCode, container) {
     // Clear icons displayed
-    Object.values(weatherIconMap).forEach(element => {
-        document.getElementById(element).style.display = 'none';
+    Object.keys(weatherIconMap).forEach(element => {
+        container.querySelector(`.${element}`).style.display = 'none';
     });
 
-    const iconClassName = weatherIconMap[weatherCode];
-    if (iconClassName) {
-        document.getElementById(iconClassName).style.display = 'initial';
-    }
-
-    // background.classList.add(weatherStyle);
+    console.log(`weather code is: ${weatherCode}`)
+    // Find the first (and in this only) element in the array that satisfies the condition:
+    // between the range of weather codes
+    const [weatherType] = Object.entries(weatherIconMap).find(([_, [start, end]]) => (
+        weatherCode >= start && weatherCode <= end
+    ));
+    container.querySelector(`.${weatherType}`).style.display = 'initial';
 }
-

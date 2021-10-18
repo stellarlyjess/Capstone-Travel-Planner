@@ -3,15 +3,25 @@
 import './styles/main.scss'
 
 import { renderEntry } from './js/common.js';
-import { parse, differenceInDays } from 'date-fns';
+import { format } from 'date-fns';
 import { registerSubmitEvent } from './js/addEntry.js';
+import { getEntries } from './js/getEntries.js';
 
-registerSubmitEvent()
+const dateEndInput = document.getElementById('entry-end');
+const dateStartInput = document.getElementById('entry-start');
 
-// document.querySelector('.entry-city').addEventListener('change', (e) => console.log(e.target.value))
-// document.getElementById('entry-start').addEventListener('change', (e) => {
-//     const datefnsFormattedDate = e.target.value.replace(/-/g, '/');
-//     const date = parse(datefnsFormattedDate, 'yyyy/MM/dd', new Date());
-//     const countdown = differenceInDays(date, new Date());
-//     console.log(countdown);
-// });
+window.onload = async () => {
+    // Make it such that start and end date cannot select a date in the past
+    const date = format(new Date(), 'yyyy-MM-dd');
+    dateStartInput.setAttribute('min', date);
+    dateEndInput.setAttribute('min', date);
+
+    await getEntries();
+}
+
+// Make it such that end date cannot select a date before the start date
+dateStartInput.addEventListener('change', (e) => {
+    dateEndInput.setAttribute('min', e.target.value);
+});
+
+registerSubmitEvent();

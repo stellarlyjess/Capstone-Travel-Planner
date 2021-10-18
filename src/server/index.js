@@ -33,7 +33,7 @@ app.get('/', function (req, res) {
 const port = 8000;
 const server = app.listen(port, () => console.log(`Listening on port: ${port}`));
 
-const travelEntries = [];
+const travelEntries = {};
 
 async function getGeonameData(city) {
     const geoUserName = process.env.GEO_USER;
@@ -67,20 +67,25 @@ async function getWeatherbitData(geonames, countdown) {
         max_temp: null,
         min_temp: null
     };
+    const weatherRes = await got(`${weatherBaseURL}?lat=${geonames.lat}&lon=${geonames.lng}&units=I&key=${weatherApiKey}`);
+    const weatherJson = JSON.parse(weatherRes.body);
     if (countdown < 16) {
-        const weatherRes = await got(`${weatherBaseURL}?lat=${geonames.lat}&lon=${geonames.lng}&units=I&key=${weatherApiKey}`);
-        const weatherJson = JSON.parse(weatherRes.body);
         const firstDayOfWeather = weatherJson.data[countdown];
         weatherBitData.description = firstDayOfWeather?.weather?.description;
         weatherBitData.code = firstDayOfWeather?.weather?.code;
         weatherBitData.max_temp = firstDayOfWeather?.max_temp;
         weatherBitData.min_temp = firstDayOfWeather?.min_temp;
     } else {
-        weatherBitData = null;
+        const todayWeather = weatherJson.data[0];
+        weatherBitData.description = "Trip is too far in the future. Diplaying current weather";
+        weatherBitData.code = todayWeather?.weather?.code;
+        weatherBitData.max_temp = todayWeather?.max_temp;
+        weatherBitData.min_temp = todayWeather?.min_temp;
     }
     return weatherBitData;
 }
 
+// Setup POST route for creating an entry
 app.post('/entry', async (req, res) => {
     const city = req.body.city;
     const startDate = req.body.startDate;
@@ -119,8 +124,19 @@ app.post('/entry', async (req, res) => {
     res.send(travelEntry);
 });
 
-// Setup GET Route
+// Setup GET Route to get all entries
 app.get('/entry', (req, res) => {
-    console.log('sending all travel entries.');
-    res.send(travelEntries);
+    console.log('sending all travel entries');
+    res.send(Object.entries(travelEntries));
+});
+
+// Setup DELETE Route to delete a specific entry
+app.delete('/entry/:entryID', (req, res) => {
+    console.log(`deleting travel entry: ${req.params.entryID}`);
+    if (travelEntries[req.params.entryID]) {
+        delete travelEntries[req.params.entryID];
+        res.sendStatus(200);
+    } else {
+        res.sendStatus(404);
+    }
 });
