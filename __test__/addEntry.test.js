@@ -4,14 +4,15 @@
 
 import { validateInputs } from '../src/client/js/addEntry'
 
-// TODO: refactor this test from project 4
-const mockPayload = {
-    "model": "general_en",
-    "score_tag": "NEU",
-    "irony": "NONIRONIC",
-    "subjectivity": "SUBJECTIVE",
-    "confidence": "86"
-}
+// Example of data returned from server API from GET to /all (as object in array) or as response from POST to /addEntry
+const mockTravelEntry = {
+    entryTitle: 'San Diego, California',
+    countdown: '1 day(s)',
+    highTemp: '87',
+    lowTemp: '56',
+    weatherInfo: 'Cloudy with a change of meatballs',
+    creationDate: Date.now()
+};
 
 describe('Expects functions for addEntry to return based on given data', () => {
     test('Expects function to not return valid based on provided input elements', () => {
@@ -24,11 +25,13 @@ describe('Expects functions for addEntry to return based on given data', () => {
         expect(() => validateInputs(fakeInput)).not.toThrow();
         expect(validateInputs(fakeInput)).toBeFalsy();
     });
-    test('Expects adding an entry to fail since fetch isnt defined', () => {
+    test('Expects some success from rendering an entry', () => {
+        // TODO: fix this
         document.body.innerHTML = `
              <div id="entry-start"></div>
              <div id="entry-end"></div>
              <div id="entry-city"></div>
          `;
+        renderEntry(mockTravelEntry);
     });
 });
