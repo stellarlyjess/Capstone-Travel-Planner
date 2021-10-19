@@ -54,7 +54,6 @@ async function getPixabayImg(city, countryName) {
         const pixaCountryJson = JSON.parse(pixaResCountry.body);
         imgURL = pixaCountryJson.hits[0]?.webformatURL;
     }
-    console.log(`imgURL hits was: ${imgURL}`)
     return { imgURL: imgURL };
 }
 
@@ -114,7 +113,7 @@ app.post('/entry', async (req, res) => {
             ...weatherBitData,
             ...imgURL
         };
-        console.log(`travel entry is: ${JSON.stringify(travelEntry)}`)
+        console.log(`new travel entry is: ${JSON.stringify(travelEntry)}`)
 
     } catch (error) {
         console.log('an error has occured', error)

@@ -7,7 +7,8 @@ async function removeEntry(event) {
     const entryInfoHolder = event.target.parentElement;
     const selectedEntryId = entryInfoHolder.dataset.entryid;
 
-    const res = await fetch(`/entry/${selectedEntryId}`, {
+    const reqUrl = 'http://localhost:8000/entry';
+    const res = await fetch(`${reqUrl}/${selectedEntryId}`, {
         method: 'DELETE',
         credentials: 'same-origin',
         headers: {
@@ -23,6 +24,6 @@ async function removeEntry(event) {
         }
     } catch (error) {
         // If something goes wrong send error message
-        console.log('An error has occured', error);
+        console.warn('An error has occured', error);
     }
 };

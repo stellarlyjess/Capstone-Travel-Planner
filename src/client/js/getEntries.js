@@ -7,13 +7,13 @@ export async function getEntries() {
     console.log('Updating UI with travel entries');
 
     try {
-        const res = await fetch('/entry');
+        const res = await fetch('http://localhost:8000/entry');
         const entries = await res.json(); // an array of object entries
 
         for (const [entryID, entry] of entries) {
             renderEntry(entry);
         }
     } catch (error) {
-        console.log('an error has occured', error);
+        console.warn('an error has occured', error);
     }
 };

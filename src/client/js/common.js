@@ -36,7 +36,7 @@ export function renderEntry(lastEntry) {
 }
 
 // Mappings between weather codes and HTML element IDs
-const weatherIconMap = {
+export const weatherIconMap = {
     'sunny': [800, 801],
     'cloudSky': [802, 900],
     'rainy': [500, 522],
@@ -46,17 +46,20 @@ const weatherIconMap = {
 };
 
 // // Switch conditions for changing the background of the API depending on the weather condition from API
-function setWeatherIcon(weatherCode, container) {
+export function setWeatherIcon(weatherCode, container) {
     // Clear icons displayed
     Object.keys(weatherIconMap).forEach(element => {
         container.querySelector(`.${element}`).style.display = 'none';
     });
 
-    console.log(`weather code is: ${weatherCode}`)
-    // Find the first (and in this only) element in the array that satisfies the condition:
-    // between the range of weather codes
-    const [weatherType] = Object.entries(weatherIconMap).find(([_, [start, end]]) => (
-        weatherCode >= start && weatherCode <= end
-    ));
-    container.querySelector(`.${weatherType}`).style.display = 'initial';
+    try {
+        // Find the first (and in this case only) element in the array that satisfies the condition:
+        // weatherCode falls between one of the ranges of weather codes and gets the associated weather type that holds said range
+        const [weatherType] = Object.entries(weatherIconMap).find(([_, [start, end]]) => (
+            weatherCode >= start && weatherCode <= end
+        ));
+        container.querySelector(`.${weatherType}`).style.display = 'initial';
+    } catch (e) {
+        console.warn(`Error from  setting weather icon: ${e}`);
+    }
 }

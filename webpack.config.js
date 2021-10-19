@@ -12,9 +12,12 @@ const isProduction = process.env.NODE_ENV == 'production';
 
 const jsEntry = './src/client/index.js';
 
+let prodPlugins = [];
 let devPlugins = [];
 if (!isProduction) {
-    devPlugins = [new CleanWebpackPlugin(), new HotModuleReplacementPlugin()]
+    devPlugins = [new CleanWebpackPlugin(), new HotModuleReplacementPlugin()];
+} else {
+    prodPlugins = [new MiniCssExtractPlugin()];
 }
 
 const config = {
@@ -22,9 +25,9 @@ const config = {
     output: {
         path: path.resolve(__dirname, 'dist'),
     },
-    resolve: {
-        extensions: ['js', '*']
-    },
+    // resolve: {
+    //     extensions: ['js', '*']
+    // },
     devtool: "source-map",
     target: 'web',
     devServer: {
@@ -33,13 +36,19 @@ const config = {
         compress: true,
         hot: false,
         port: 8080,
+        // Add headers for access control allow origin CORs to work between dev server and actual nodejs server
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+            "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+        }
     },
     plugins: [
-        isProduction && new MiniCssExtractPlugin(),
         new HtmlWebpackPlugin({
             template: './src/client/html/index.html',
             filename: 'index.html'
         }),
+        ...prodPlugins,
         ...devPlugins
     ],
     stats: {
@@ -69,7 +78,8 @@ const config = {
             },
             {
                 test: /\.scss$/,
-                use: [(isProduction ? MiniCssExtractPlugin.loader : 'style-loader'), 'css-loader', 'sass-loader'],
+                use: [
+                    (isProduction ? MiniCssExtractPlugin.loader : 'style-loader'), 'css-loader', 'sass-loader'],
             },
             {
                 test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,

@@ -1,6 +1,7 @@
 // Entry point file for all javascript
 
 import './styles/main.scss'
+import './styles/entry.scss'
 
 import { renderEntry } from './js/common.js';
 import { format } from 'date-fns';

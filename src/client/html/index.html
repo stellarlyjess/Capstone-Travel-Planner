@@ -3,21 +3,22 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Capstone Travel Planner</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     <!-- https://net-raft.com/Questions/2627/dropdown-list-of-country-state-and-city-using-javascript/2627 -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="//geodata.solutions/includes/countrystatecity.js"></script>
+
 </head>
 
 <body>
-    <h1>Travel Planner</h1>
-
+    <!-- <div id="flex-holder"> -->
+    <div id="title-block">
+        <h1 id="main-title" class="glow">Wanderlust Playlist</h1>
+        <h2 id="secondary-title" class="glow">Travel is never a matter of money but of courage</h2>
+    </div>
     <div id="entry-container">
-        <!-- <div id="entry-img-holder">
-            <img id="entry-img">
-        </div> -->
-
         <div id="entry-info-holder">
             <div>Enter start date</div>
             <input type="date" id="entry-start" class="userFields">
@@ -29,7 +30,7 @@
                 <option selected value="">Select Country</option>
             </select>
             <select name="state" class="userFields states" id="stateId">
-                <option selected value="">Select State</option>
+                <option selected value="">Select State, Province, or Region</option>
             </select>
             <select name="city" class="userFields cities entry-city" id="cityId">
                 <option selected value="">Select City</option>
@@ -38,14 +39,10 @@
             <br>
             <div id="errBox"></div>
         </div>
-
-
-
-        <br>
-        <hr>
         <br>
         <!-- This is where new entries will be loaded into the page dynamically from the renderEntry function -->
     </div>
+    <!-- </div> -->
 </body>
 
 </html>

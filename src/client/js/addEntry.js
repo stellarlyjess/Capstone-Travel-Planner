@@ -21,7 +21,7 @@ async function addEntry(event) {
 
         getCountdownDays(entryStart.value);
         // See addEntry function for return val
-        const newEntry = await submitEntry('/entry', {
+        const newEntry = await submitEntry('http://localhost:8000/entry', {
             date: entryCreationDate,
             startDate: entryStart.value,
             endDate: entryEnd.value,
@@ -29,8 +29,6 @@ async function addEntry(event) {
             country: entryCountry.value,
             tripLength: getTripLength(entryStart.value, entryEnd.value)
         });
-
-        console.log(JSON.stringify(newEntry))
 
         // (4) use renderEntry function to update UI for new entry
         renderEntry(newEntry);
@@ -81,7 +79,6 @@ export function getCountdownDays(inputValue) {
     const datefnsFormattedDate = inputValue.replace(/-/g, '/');
     const date = parse(datefnsFormattedDate, 'yyyy/MM/dd', new Date()); // convert yyyy/MM/dd into javascript Date() format
     const countdown = differenceInDays(date, new Date()); // get difference between days of today and the start date of the travel entry
-    console.log(`countdown days is: ${countdown}`)
     return countdown;
 }
 
@@ -114,7 +111,7 @@ async function submitEntry(url = '', data = {}) {
         }
     } catch (error) {
         // If something goes wrong send error message
-        console.log('An error has occured', error);
+        console.warn('An error has occured', error);
     }
     return newData;
 };
