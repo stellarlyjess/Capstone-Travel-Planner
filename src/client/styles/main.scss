@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Orienta&family=Satisfy&display=swap');
+@import '@fortawesome/fontawesome-free/css/all.css';
 
 html{
     height: 100%;
@@ -8,7 +9,17 @@ body{
     background-color: #000;
     color: white;
     margin: 0;
-    height: 100%;
+    // height: 100%;
+}
+
+#header-block{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
 }
 
 #flex-holder{
@@ -19,64 +30,100 @@ body{
     justify-content: center;
 }
 
+#entry-container{
+    height: 100vh;
+}
+
 #title-block{
-    background-image: url(/src/client/images/616e0169c8ba0_edit.jpg);
-    background-size: cover;
+    background-image: url(/src/client/images/616e0169c8ba0.jpg);
+    background-size: 200vw;
+    background-position: center;
     background-repeat: no-repeat;
+    overflow: hidden;
     width: 100%;
     height: 100%;
+    position: relative;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
     justify-content: center;
-    z-index: 1;
-    align-items: self-end;
+    align-items: center;
 }
 
 #main-title{
     font-family: 'satisfy', cursive;
-    // background-color: black;
-    // color: white;
-    background-color:rgba(255, 255, 255, 100%);
-    color: black;
+    background-color: black;
+    color: white;
+    // background-color:rgba(255, 255, 255, 100%);
+    // color: black;
     font-size: 10vw;
     font-weight: bold;
     width: 100%;
+    height: fit-content;
     top: unset;
     left: unset;
     transform: initial;
-    flex: 1 1 100%;
+    // flex: 1 1 100%;
     text-align: center;
-    mix-blend-mode: screen;
-    font-size: 8vw;
     margin: 0;
-    margin-top: 205px;
-    // mix-blend-mode: multiply;
-    mix-blend-mode: screen;
-    border-top: 5px solid #ed4e48;
+    // margin-top: 205px;
+    mix-blend-mode: multiply;
+    // mix-blend-mode: screen;
+    border-top: 5px solid #fa7147;
+    border-bottom: 5px solid #fa7147;
+    position: absolute;
     // margin-bottom: 220px;
     // -webkit-text-stroke: 5px rgb(255, 255, 255);
+    z-index: 5;
+
+    &::before {
+        font-family:'orienta', sans-serif;
+        font-size: 1.5vw;
+        margin: 0;
+        color: white;
+        bottom: 0;
+        font-weight: bold;
+        text-align: center;
+        margin: 0;
+        padding-bottom: 3px;
+        width: 100%;
+        align-self: self-start;
+        left: 0;
+        transform: initial;
+        position: absolute;
+        z-index: 15;
+        content: "TRAVEL IS NEVER A MATTER OF MONEY BUT OF COURAGE"
+    }
 }
 
-#secondary-title{
-    font-family:'orienta', sans-serif;
-    font-size: 2vw;
-    margin: 0;
-    background-color:rgba(255, 255, 255, 100%);;
-    color: black;
-    top: unset;
+#main-title-highlight{
+    font-family: 'satisfy', cursive;
+    // background-color: black;
+    color: rgba($color: #fff, $alpha: .01);
+    font-size: 10vw;
     font-weight: bold;
-    text-align: center;
-    margin: 0 auto;
-    padding-bottom: 10px;
     width: 100%;
-    align-self: self-start;
-    top: 50%;
-    left: unset; 
+    height: fit-content;
+    top: unset;
+    left: unset;
     transform: initial;
-    mix-blend-mode: screen; 
+    // flex: 1 1 100%;
+    text-align: center;
     margin: 0;
-    border-bottom: 5px solid #ed4e48;
+    border-top: 5px solid rgba(255, 255, 255, 0.87);
+    border-bottom: 5px solid rgba(255, 255, 255, 0.87);
+    -webkit-text-stroke: 20px rgba(255,255,255,0.07);
+    z-index: 1;
+    position: absolute;
+
+    &::after {
+        content: "TRAVEL IS NEVER A MATTER OF MONEY BUT OF COURAGE";
+        width: 50%;
+        position: absolute;
+        bottom: 0;
+        left: 20%;
+        font-size: 1.5vw;
+        background: #ff4949;
+        padding-bottom: 3px;
+    }
 }
 
 // .glow {
@@ -86,24 +133,249 @@ body{
 //         0 0 9px rgb(98, 238, 215),
 //         0 0 12px rgb(86, 230, 255),
 //   }
-  
-button{
-    height: 40px;
-    color: #fff;
-    padding: 5px 10px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    display: inline-block;
-    outline: none;
-    border-radius: 10px;
-    border: 2px solid #f3159e;
-    background: linear-gradient(315deg, #543ab4 0%, #911dfd 50%, #fc45bf);;
-    min-width: 130px;
+
+#form-info-holder{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    position: absolute;
+    bottom: 5vh;
+    z-index: 30;
 }
 
-button:hover {
-background: none;
-color: #f3159e
+#date-box{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
 }
+
+#arrow-container-container {
+    position: absolute;
+    bottom: 5%;
+}
+
+#arrow-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    --glow-color: rgb(217, 176, 255);
+    --glow-spread-color: rgba(191, 123, 255, 0.781);
+    --enhanced-glow-color: rgb(231, 206, 255);
+    --btn-color: rgb(100, 61, 136);
+    outline: none;
+    border: .25em solid var(--glow-color);
+    padding: 0.5em 1.2em;
+    color: var(--glow-color);
+    // font-size: 16px;
+    font-weight: bold;
+    background-color: var(--btn-color);
+    border-radius: 16em;
+    outline: none;
+    box-shadow: 0 0 1em .25em var(--glow-color),
+           0 0 4em 1em var(--glow-spread-color),
+           inset 0 0 .75em .25em var(--glow-color);
+    text-shadow: 0 0 .5em var(--glow-color);
+    position: absolute;
+    transition: all 0.3s;
+    z-index: 20;
+
+    &::before {
+        content: "VIEW TRIP ENTRIES";
+        color: white;
+        position: absolute;
+        top: -80%;
+        width: 400px;
+    }
+}
+
+#arrow-container:hover {
+    color: var(--btn-color);
+    background-color: var(--glow-color);
+    box-shadow: 0 0 1em .25em var(--glow-color),
+           0 0 4em 2em var(--glow-spread-color),
+           inset 0 0 .75em .25em var(--glow-color);
+   }
+   
+#arrow-container:active {
+    box-shadow: 0 0 0.6em .25em var(--glow-color),
+           0 0 2.5em 2em var(--glow-spread-color),
+           inset 0 0 .5em .25em var(--glow-color);
+   }
+
+// https://cssbuttons.io/detail/cssbuttons-io/funny-dog-69
+// button{
+//     --glow-color: rgb(217, 176, 255);
+//     --glow-spread-color: rgba(191, 123, 255, 0.781);
+//     --enhanced-glow-color: rgb(231, 206, 255);
+//     --btn-color: rgb(100, 61, 136);
+//     outline: none;
+//     border: .25em solid var(--glow-color);
+//     padding: 1em 3em;
+//     color: var(--glow-color);
+//     font-size: 16px;
+//     font-weight: bold;
+//     background-color: var(--btn-color);
+//     border-radius: 1em;
+//     outline: none;
+//     box-shadow: 0 0 1em .25em var(--glow-color),
+//            0 0 4em 1em var(--glow-spread-color),
+//            inset 0 0 .75em .25em var(--glow-color);
+//     text-shadow: 0 0 .5em var(--glow-color);
+//     position: relative;
+//     transition: all 0.3s;
+// }
+
+// button::after {
+//     pointer-events: none;
+//     content: "";
+//     position: absolute;
+//     top: 120%;
+//     left: 0;
+//     height: 100%;
+//     width: 100%;
+//     background-color: var(--glow-spread-color);
+//     filter: blur(2em);
+//     opacity: .7;
+//     transform: perspective(1.5em) rotateX(35deg) scale(1, .6);
+//    }
+   
+//    button:hover {
+//     color: var(--btn-color);
+//     background-color: var(--glow-color);
+//     box-shadow: 0 0 1em .25em var(--glow-color),
+//            0 0 4em 2em var(--glow-spread-color),
+//            inset 0 0 .75em .25em var(--glow-color);
+//    }
+
+*, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+.custom-field {
+    position: relative;
+    font-size: 14px;
+    border-top: 20px solid transparent;
+    margin-bottom: 5px;
+    --field-padding: 12px;
+  }
+  
+  .custom-field input {
+    border: none;
+    -webkit-appearance: none;
+    -ms-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: #a12e9446;
+    padding: var(--field-padding);
+    border-radius: 3px;
+    width: 250px;
+    outline: none;
+    font-size: 14px;
+  }
+  
+//   .custom-field .placeholder {
+//     position: absolute;
+//     left: var(--field-padding);
+//     width: calc(100% - (var(--field-padding) * 2));
+//     overflow: hidden;
+//     white-space: nowrap;
+//     text-overflow: ellipsis;
+//     top: 22px;
+//     line-height: 100%;
+//     transform: translateY(-50%);
+//     color: #aaa;
+//     transition: 
+//       top 0.3s ease,
+//       color 0.3s ease,
+//       font-size 0.3s ease;
+//   }
+  
+//   .custom-field input.dirty + .placeholder,
+//   .custom-field input:focus + .placeholder,
+//   .custom-field input:not(:placeholder-shown) + .placeholder {
+//     top: -10px;
+//     font-size: 1.5vw;
+//     color: rgb(255, 255, 255);
+//   }
+
+//   .custom-field.three {
+//     --draw-duration: 0.1s;
+//     --draw-color: #af4f5a;
+//     --draw-line-width: 2px;
+//     --draw-easing: linear;
+//   }
+  
+//   .custom-field.three .border {
+//     width: 100%;
+//     height: 100%;
+//     position: absolute;
+//     left: 0;
+//     top: 0;
+//     transform: none;
+//     display: flex;
+//     align-items: center;
+//     padding-left: 12px;
+//     border-radius: 3px;
+//   }
+  
+//   .custom-field.three .border::after, 
+//   .custom-field.three .border::before {
+//     content: "";
+//     width: 0;
+//     height: 0;
+//     display: inline-block;
+//     position: absolute;
+//     border-radius: 3px;
+//   }
+  
+//   .custom-field.three .border::before {
+//     left: 0;
+//     bottom: 0;
+//     border-right: 0px solid var(--draw-color);
+//     border-bottom: 0px solid var(--draw-color);
+//     transition: 
+//       border 0s linear calc(var(--draw-duration) * 4),
+//       height var(--draw-duration) var(--draw-easing) calc(var(--draw-duration) * 2),
+//       width var(--draw-duration) var(--draw-easing) calc(var(--draw-duration) * 3);
+//   }
+  
+//   .custom-field.three .border::after {
+//     right: 0;
+//     top: 0;
+//     border-left: 0px solid var(--draw-color);
+//     border-top: 0px solid var(--draw-color);
+//     transition: 
+//       border 0s linear calc(var(--draw-duration) * 2),
+//       height var(--draw-duration) var(--draw-easing),
+//       width var(--draw-duration) var(--draw-easing) var(--draw-duration);
+//   }
+  
+//   .custom-field.three input:focus ~ .border::before,
+//   .custom-field.three input:not(:placeholder-shown) ~ .border::before,
+//   .custom-field.three input.dirty ~ .border::before,
+//   .custom-field.three input:focus ~ .border::after,
+//   .custom-field.three input:not(:placeholder-shown) ~ .border::after,
+//   .custom-field.three input.dirty ~ .border::after {
+//     width: 100%;
+//     height: 100%;
+//     border-width: var(--draw-line-width);
+//   }
+  
+//   .custom-field.three input:not(:placeholder-shown) ~ .border::before,
+//   .custom-field.three input.dirty ~ .border::before,
+//   .custom-field.three input:focus ~ .border::before {
+//     transition-delay: 0s, var(--draw-duration), 0s;
+//   }
+  
+//   .custom-field.three input:not(:placeholder-shown) ~ .border::after,
+//   .custom-field.three input.dirty ~ .border::after,
+//   .custom-field.three input:focus ~ .border::after {
+//     transition-delay: 
+//       calc(var(--draw-duration) * 2), 
+//       calc(var(--draw-duration) * 3), 
+//       calc(var(--draw-duration) * 2);
+//   }

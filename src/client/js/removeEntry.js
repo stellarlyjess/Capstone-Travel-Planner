@@ -21,6 +21,9 @@ async function removeEntry(event) {
             console.error(`Delete entry received error: ${res.status}`);
         } else {
             entryInfoHolder.remove();
+            // cleanup carousel entry
+            const carouselContainer = document.querySelector('.flickity-slider');
+            [...carouselContainer.childNodes].forEach((el) => !el.firstChild && window.flickCarousel.remove(el));
         }
     } catch (error) {
         // If something goes wrong send error message

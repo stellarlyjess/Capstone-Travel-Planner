@@ -9,40 +9,67 @@
     <!-- https://net-raft.com/Questions/2627/dropdown-list-of-country-state-and-city-using-javascript/2627 -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="//geodata.solutions/includes/countrystatecity.js"></script>
-
+    <!-- For the travel entry carousel -->
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
 </head>
 
 <body>
     <!-- <div id="flex-holder"> -->
-    <div id="title-block">
-        <h1 id="main-title" class="glow">Wanderlust Playlist</h1>
-        <h2 id="secondary-title" class="glow">Travel is never a matter of money but of courage</h2>
-    </div>
-    <div id="entry-container">
-        <div id="entry-info-holder">
-            <div>Enter start date</div>
-            <input type="date" id="entry-start" class="userFields">
-            <div>Enter end date</div>
-            <input type="date" id="entry-end" class="userFields">
-            <br>
+    <div id="header-block">
+        <div id="title-block">
+            <h1 id="main-title">Wanderlust Playlist</h1>
+            <h1 id="main-title-highlight">Wanderlust Playlist</h1>
+            <a id="arrow-container-container" data-scroll href="#entry-container">
+                <button id="arrow-container">
+                    <div class="fas fa-angle-double-down"></div>
+                </button>
+            </a>
+        </div>
+        <div id="form-info-holder">
+            <div id="date-box">
+                <label class="custom-field three">
+                    <input type="date" id="entry-start" class="userFields" placeholder="Start Date">
+                    <span class="placeholder">Start Date</span>
+                    <span class="border"></span>
+                </label>
+                <label class="custom-field three">
+                    <input type="date" id="entry-end" class="userFields">
+                    <span class="placeholder">End Date</span>
+                    <span class="border"></span>
+                </label>
+            </div>
             <!-- https://net-raft.com/Questions/2627/dropdown-list-of-country-state-and-city-using-javascript/2627 -->
-            <select name="country" class="userFields countries entry-country" id="countryId">
-                <option selected value="">Select Country</option>
-            </select>
-            <select name="state" class="userFields states" id="stateId">
-                <option selected value="">Select State, Province, or Region</option>
-            </select>
-            <select name="city" class="userFields cities entry-city" id="cityId">
-                <option selected value="">Select City</option>
-            </select>
-            <button id="entry-submit">save trip</button>
+            <div id="location-box">
+                <select name="country" class="userFields countries entry-country" id="countryId">
+                    <option selected value="">Select Country</option>
+                </select>
+                <select name="state" class="userFields states" id="stateId">
+                    <option selected value="">Select State, Province, or Region</option>
+                </select>
+                <select name="city" class="userFields cities entry-city" id="cityId">
+                    <option selected value="">Select City</option>
+                </select>
+                <button id="entry-submit">START ADVENTURE</button>
+            </div>
             <br>
             <div id="errBox"></div>
         </div>
-        <br>
-        <!-- This is where new entries will be loaded into the page dynamically from the renderEntry function -->
     </div>
-    <!-- </div> -->
+    <br>
+    <div id="entry-container">
+        <!-- This is where new entries will be loaded into the page dynamically from the renderEntry function -->
+
+        <div class="carousel" data-flickity>
+            <div class="carousel-cell"></div>
+        </div>
+    </div>
+
+
+
+
+
+
 </body>
 
 </html>

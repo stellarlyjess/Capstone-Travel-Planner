@@ -1,4 +1,9 @@
 .entry-info-holder{
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     border-radius: 21px;
     background: linear-gradient(145deg, #a39f9f, #e2dddd);
     box-shadow:  16px 16px 32px #8b8787,
@@ -7,10 +12,16 @@
 
 .entry-img {
     height: 300px;
-    width: 750px;
+    width: 300px;
     background-size: contain;
     background-repeat: no-repeat;
-    background-size: contain;
+}
+
+#weather-box{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .icon {

@@ -3,6 +3,14 @@ import newEntryHtml from '../html/views/newEntry.html';
 import { registerRemoveEvent } from './removeEntry.js';
 import { getCountdownDays } from './addEntry.js';
 
+export function createFlickity() {
+    return new Flickity('.carousel', {
+        initialIndex: 0,
+        prevNextButtons: false,
+        wrapAround: true
+    });
+}
+
 // Renders a travel entry into the UI
 export function renderEntry(lastEntry) {
     // webpack converts imported html into JS files as JS strings, so create a DOMParser object to parse the string into
@@ -31,8 +39,16 @@ export function renderEntry(lastEntry) {
 
     registerRemoveEvent(fragment.querySelector('.entry-remove'));
 
-    // Add the new entry HTML to the actual DOM
-    document.body.appendChild(fragment);
+    // HACK: flickity seems to require atleast one carousel cell to start, so remove the dummy one a real entry comes along
+    const carouselContainer = document.querySelector('.flickity-slider');
+    [...carouselContainer.childNodes].forEach((el) => !el.firstChild && window.flickCarousel.remove(el));
+
+    // Add the new entry HTML to an actual DOM element
+    const cell = document.createElement('div');
+    cell.className = 'carousel-cell';
+    cell.appendChild(fragment);
+    // insert the new cell into the carousel
+    window.flickCarousel.insert([cell], 0);
 }
 
 // Mappings between weather codes and HTML element IDs
