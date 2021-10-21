@@ -1,35 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Orienta&family=Satisfy&display=swap');
+
 .entry-info-holder{
-    width: 500px;
+    // height: 65vh;
+    // overflow-y: scroll;
+    width: 60vw;
+    justify-items: center;
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: center;
+    // align-items: center;
+    border-radius: 15px;
+    display: grid; 
+    grid-template-columns: 1fr 1fr 1fr 1fr; 
+    grid-template-rows: 0.5fr 0.6fr 0.6fr 0.75fr 0.75fr 0.5fr 0.75fr 0.75fr; 
+    gap: 0px 0px; 
+    grid-template-areas: 
+    "title title title button"
+    "img img img img"
+    "img img img img"
+    "main main main main"
+    "main main main main"
+    "label label label label"
+    "icon icon rep rep"
+    "icon icon rep rep";
+    border: solid #a14e76 5px;
+  }
+    // background:#a12e9446;
+
+// .entry-info-holder:active{
+//     border-color: var(--btn-color);
+//     box-shadow: 0 0 1em .25em var(--glow-color),
+//            0 0 4em 2em var(--glow-spread-color),
+//            inset 0 0 .75em .25em var(--glow-color);
+// }
+
+// .entry-remove{
+
+// }
+
+.entry-text {
+    color: #a14e76;
+}
+
+.entry-title{
+    grid-area: title;
+    font-family: "satisfy", cursive;
+    font-size: 3.7vw;
+    color: #a14e76;
+    justify-items: center;
+    padding-left: 4vw;
+}
+
+.entry-remove{
+    grid-area: button;
+    height: 2.5vw;
+    width: 4vw;
+    align-self: center;
+}
+
+.entry-item{
+    font-family: "orienta", sans-serif;
+    font-size: 2vw;
+    width:fit-content;
+    padding: 15px;
+}
+
+.weather-item{
+    font-family: "orienta", sans-serif;
+    font-size: 2vw;
+    width:fit-content;
+}
+
+.weather-label{
+    grid-area: label;
+    justify-self: center;
+    align-self: center;
+    font-family: "satisfy", cursive;
+    font-size: 3vw;
+    color: #a14e76;
+}
+
+.entry-img-holder {
+    grid-area: img;
+    width: 100%;
+    // height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
+.entry-img {
+    width: 50%;
+    background-repeat: no-repeat;
+    opacity:0.5;
+    height: 100%;
+    background-size: contain;
+    background-position: center;
+}
+
+.entry-main{
+    grid-area: main;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border-radius: 21px;
-    background: linear-gradient(145deg, #a39f9f, #e2dddd);
-    box-shadow:  16px 16px 32px #8b8787,
-                 -16px -16px 32px #f5f0f0;
 }
 
-.entry-img {
-    height: 300px;
-    width: 300px;
-    background-size: contain;
-    background-repeat: no-repeat;
-}
+// #weather-box{
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: center;
+//     align-items: center;
+//     position: relative;
+// }
 
-#weather-box{
+#weather-icon{
+    grid-area: icon;
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
+    // position: absolute;
+}
+
+#weather-report{
+    grid-area: rep;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    // position: absolute;
 }
 
 .icon {
     position: relative;
     display: inline-block;
-    width: 12em;
-    height: 9em;
-    font-size: 1em;
+    // width: 5vh;
+    // height: 3.5vh;
+    font-size: 0.9vw;
+    transform: scale(2);
     /* control icon size here */
 }
 

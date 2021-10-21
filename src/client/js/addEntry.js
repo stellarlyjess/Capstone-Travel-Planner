@@ -12,28 +12,29 @@ async function addEntry(event) {
     event.preventDefault();
     try {
         const entryCreationDate = new Date();
-        const entryStart = document.getElementById('entry-start');
-        const entryEnd = document.getElementById('entry-end');
         const entryCity = document.querySelector('.entry-city');
         const entryCountry = document.querySelector('.entry-country');
 
-        if (!validateInputs(entryStart, entryEnd, entryCity)) return;
+        const startDateValue = document.getElementById('entry-start').querySelector('input');
+        const endDateValue = document.getElementById('entry-end').querySelector('input');
 
-        getCountdownDays(entryStart.value);
+        if (!validateInputs(startDateValue, endDateValue, entryCity)) return;
+
+        const countdown = getCountdownDays(window.startDateValue);
+
         // See addEntry function for return val
         const newEntry = await submitEntry('http://localhost:8000/entry', {
             date: entryCreationDate,
-            startDate: entryStart.value,
-            endDate: entryEnd.value,
+            startDate: window.startDateValue,
+            endDate: window.endDateValue,
             city: entryCity.value,
+            countdown: countdown,
             country: entryCountry.value,
-            tripLength: getTripLength(entryStart.value, entryEnd.value)
+            tripLength: getTripLength(window.startDateValue, window.endDateValue)
         });
 
         // (4) use renderEntry function to update UI for new entry
         renderEntry(newEntry);
-
-        // (5) TODO: clear all inputs after successful fetch POST
 
         const userFields = document.querySelectorAll('.userFields');
         for (const userField of userFields) {

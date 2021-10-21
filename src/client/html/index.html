@@ -28,30 +28,31 @@
         </div>
         <div id="form-info-holder">
             <div id="date-box">
-                <label class="custom-field three">
-                    <input type="date" id="entry-start" class="userFields" placeholder="Start Date">
-                    <span class="placeholder">Start Date</span>
-                    <span class="border"></span>
-                </label>
-                <label class="custom-field three">
-                    <input type="date" id="entry-end" class="userFields">
-                    <span class="placeholder">End Date</span>
-                    <span class="border"></span>
-                </label>
-            </div>
-            <!-- https://net-raft.com/Questions/2627/dropdown-list-of-country-state-and-city-using-javascript/2627 -->
-            <div id="location-box">
-                <select name="country" class="userFields countries entry-country" id="countryId">
+                <span id="entry-start" class="user-fields">
+                    <div id="entry-start-text">Start Date</div>
+                    <div class="far fa-calendar-alt"></div>
+                </span>
+                <span>=></span>
+                <span id="entry-end" class="user-fields">
+                    <div id="entry-end-text">End Date</div>
+                    <div class="far fa-calendar-alt"></div>
+                </span>
+                <!-- https://net-raft.com/Questions/2627/dropdown-list-of-country-state-and-city-using-javascript/2627 -->
+                <!-- <div id="location-box"> -->
+                <select name="country" class="user-fields countries entry-country" id="countryId">
                     <option selected value="">Select Country</option>
                 </select>
-                <select name="state" class="userFields states" id="stateId">
-                    <option selected value="">Select State, Province, or Region</option>
+                <select name="state" class="user-fields states" id="stateId">
+                    <option selected value="">Select Region</option>
                 </select>
-                <select name="city" class="userFields cities entry-city" id="cityId">
+                <select name="city" class="user-fields cities entry-city" id="cityId">
                     <option selected value="">Select City</option>
                 </select>
-                <button id="entry-submit">START ADVENTURE</button>
+                <button id="entry-submit">
+                    <div class="fas fa-plus"></div>
+                </button>
             </div>
+            <!-- </div> -->
             <br>
             <div id="errBox"></div>
         </div>
@@ -64,11 +65,6 @@
             <div class="carousel-cell"></div>
         </div>
     </div>
-
-
-
-
-
 
 </body>
 

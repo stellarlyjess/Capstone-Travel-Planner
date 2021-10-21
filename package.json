@@ -41,6 +41,8 @@
   "dependencies": {
     "@babel/runtime": "^7.15.4",
     "@fortawesome/fontawesome-free": "^5.15.4",
-    "got": "^11.8.2"
+    "got": "^11.8.2",
+    "native-datepicker": "^1.1.1",
+    "smooth-scroll": "^16.1.3"
   }
 }

@@ -46,7 +46,7 @@ async function getGeonameData(city) {
 async function getPixabayImg(city, countryName) {
     const pixaApiKey = process.env.PIXA_API_KEY;
     const pixaBaseURL = "https://pixabay.com/api";
-    const pixaRes = await got(`${pixaBaseURL}?key=${pixaApiKey}&q=${city}&category=places&orientation=horizontal&image_type=photo`);
+    const pixaRes = await got(`${pixaBaseURL}?key=${pixaApiKey}&q=${city}&category=travel`);
     const pixaJson = JSON.parse(pixaRes.body);
     let imgURL = pixaJson.hits[0]?.webformatURL;
     if (!imgURL) {
@@ -68,6 +68,7 @@ async function getWeatherbitData(geonames, countdown) {
     };
     const weatherRes = await got(`${weatherBaseURL}?lat=${geonames.lat}&lon=${geonames.lng}&units=I&key=${weatherApiKey}`);
     const weatherJson = JSON.parse(weatherRes.body);
+    console.log(`Countdown: ${countdown}`)
     if (countdown < 16) {
         const firstDayOfWeather = weatherJson.data[countdown];
         weatherBitData.description = firstDayOfWeather?.weather?.description;
@@ -76,7 +77,7 @@ async function getWeatherbitData(geonames, countdown) {
         weatherBitData.min_temp = firstDayOfWeather?.min_temp;
     } else {
         const todayWeather = weatherJson.data[0];
-        weatherBitData.description = "Trip is too far in the future. Diplaying current weather";
+        weatherBitData.description = "Trip is too far in the future. Displaying current weather";
         weatherBitData.code = todayWeather?.weather?.code;
         weatherBitData.max_temp = todayWeather?.max_temp;
         weatherBitData.min_temp = todayWeather?.min_temp;
@@ -113,7 +114,6 @@ app.post('/entry', async (req, res) => {
             ...weatherBitData,
             ...imgURL
         };
-        console.log(`new travel entry is: ${JSON.stringify(travelEntry)}`)
 
     } catch (error) {
         console.log('an error has occured', error)

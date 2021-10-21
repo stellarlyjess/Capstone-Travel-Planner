@@ -1,68 +1,71 @@
 <div class="entry-info-holder">
-    <div class="entry-img"></div>
     <h3 class="entry-title"></h3>
-    <h3>start date</h3>
-    <p class="entry-startDate"></p>
-    <h3>end date</h3>
-    <p class="entry-endDate"></p>
-    <h3>trip length</h3>
-    <p class="entry-length"></p>
-    <h3>days until trip</h3>
-    <p class="entry-countdown"></p>
-    <h3>typical weather</h3>
+    <div class="entry-img-holder">
+        <div class="entry-img"></div>
+    </div>
+    <div class="entry-main">
+        <div class="entry-startDate entry-item"></div>
+        <div class="entry-endDate entry-item"></div>
+        <div class="entry-length entry-item"></div>
+        <div class="entry-countdown entry-item"></div>
+    </div>
+    <div class="weather-label">Weather Forcast</div>
+    <!-- <div id="weather-box"> -->
     <!-- Weather icons modified from <a href="https://dribbble.com/shots/2097042-Widget-Weather" target="_blank">Dribbble</a> by kylor -->
-    <div class="icon sunShower">
-        <div class="cloud"></div>
-        <div class="sun">
-            <div class="rays"></div>
+    <div id="weather-icon">
+        <div class="icon sunShower">
+            <div class="cloud"></div>
+            <div class="sun">
+                <div class="rays"></div>
+            </div>
+            <div class="rain"></div>
         </div>
-        <div class="rain"></div>
-    </div>
 
-    <div class="icon thunderStorm">
-        <div class="cloud"></div>
-        <div class="lightning">
-            <div class="bolt"></div>
-            <div class="bolt"></div>
+        <div class="icon thunderStorm">
+            <div class="cloud"></div>
+            <div class="lightning">
+                <div class="bolt"></div>
+                <div class="bolt"></div>
+            </div>
         </div>
-    </div>
 
-    <div class="icon cloudSky">
-        <div class="cloud"></div>
-        <div class="cloud"></div>
-    </div>
-
-    <div class="icon flurries">
-        <div class="cloud"></div>
-        <div class="snow">
-            <div class="flake"></div>
-            <div class="flake"></div>
+        <div class="icon cloudSky">
+            <div class="cloud"></div>
+            <div class="cloud"></div>
         </div>
-    </div>
 
-    <div class="icon sunny">
-        <div class="sun">
-            <div class="rays"></div>
+        <div class="icon flurries">
+            <div class="cloud"></div>
+            <div class="snow">
+                <div class="flake"></div>
+                <div class="flake"></div>
+            </div>
         </div>
-    </div>
 
-    <div class="icon rainy">
-        <div class="cloud"></div>
-        <div class="rain"></div>
+        <div class="icon sunny">
+            <div class="sun">
+                <div class="rays"></div>
+            </div>
+        </div>
+
+        <div class="icon rainy">
+            <div class="cloud"></div>
+            <div class="rain"></div>
+        </div>
+        <div class="desc"></div>
+        <div class="content"></div>
     </div>
-    <div class="desc"></div>
-    <div class="content"></div>
-    <div id="weather-box">
+    <div id="weather-report">
         <section>
-            <p>High: -</p>
-            <p class="weather-high"></p>
+            <p class="weather-high weather-item"></p>
         </section>
-
         <section>
-            <p>Low -</p>
-            <p class="weather-low"></p>
+            <p class="weather-low weather-item"></p>
         </section>
-        <p class="weather-desc"></p>
+        <p class="weather-desc weather-item"></p>
     </div>
-    <button class="entry-remove">REMOVE TRIP</button>
+    <!-- </div> -->
+    <button class="entry-remove">
+        <div class="fas fa-times"></div>
+    </button>
 </div>
