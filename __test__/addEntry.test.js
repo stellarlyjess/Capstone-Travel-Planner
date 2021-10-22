@@ -19,14 +19,11 @@ describe('Expects functions for addEntry to return based on given data', () => {
         expect(validateInputs(fakeInput)).toBeFalsy();
     });
     test('Expects countdown days to return valid amount of days based on date', () => {
-        const defaultDateNow = globalThis.Date.now;
-        globalThis.Date.now = () => "2021-10-22T07:29:29.743Z";
-        const oct_22_2022 = new Date("2022-10-22T07:29:29.743Z");
-        const date = format(oct_22_2022, 'yyyy-MM-dd');
-
-        const countdown = getCountdownDays(date);
-        expect(countdown).toEqual(364);
-        globalThis.Date.now = defaultDateNow;
+        jest.useFakeTimers('modern');
+        jest.setSystemTime(new Date(2021, 9, 21));
+        const countdown = getCountdownDays('2022-10-21');
+        expect(countdown).toEqual(365);
+        jest.useRealTimers();
     });
     test('Expects trip length to return valid length based on provided dates', () => {
         let tripLength = getTripLength('2021-01-01', '2021-01-02');
