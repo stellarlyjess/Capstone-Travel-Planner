@@ -28,9 +28,9 @@ const config = {
     devtool: "source-map",
     target: 'web',
     devServer: {
-        // host: '192.168.1.105',
-        // allowedHosts: 'http://stellarlyjess/',
-        // host: '0.0.0.0',
+        //         host: '192.168.1.105',
+        //         allowedHosts: 'http://stellarlyjess/',
+        //         host: '0.0.0.0',
         historyApiFallback: true,
         compress: true,
         hot: false,
