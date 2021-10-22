@@ -73,6 +73,7 @@ function appendToCarousel(fragment) {
     cell.appendChild(fragment);
     // insert the new cell into the carousel
     window.flickCarousel.insert([cell], 0);
+    window.flickCarousel.select(0, false, true); // select the new carousel entry
 }
 
 // Renders a travel entry into the UI

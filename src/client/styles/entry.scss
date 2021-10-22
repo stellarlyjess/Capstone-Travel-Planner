@@ -1,61 +1,46 @@
 @import url('https://fonts.googleapis.com/css2?family=Orienta&family=Satisfy&display=swap');
 
 .entry-info-holder{
-    // height: 65vh;
-    // overflow-y: scroll;
-    width: 60vw;
+    height: 95vh;
+    width: 65vw;
     justify-items: center;
-    // display: flex;
-    // flex-direction: column;
-    // justify-content: center;
-    // align-items: center;
     border-radius: 15px;
     display: grid; 
-    grid-template-columns: 1fr 1fr 1fr 1fr; 
-    grid-template-rows: 0.5fr 0.6fr 0.6fr 0.75fr 0.75fr 0.5fr 0.75fr 0.75fr; 
+    grid-template-columns: 0.6fr 0.6fr 0.6fr 1fr 0.5fr;
+    grid-template-rows: 0.5fr 0.6fr 0.6fr 0.75fr 0.4fr 0.75fr 0.75fr;
     gap: 0px 0px; 
     grid-template-areas: 
-    "title title title button"
-    "img img img img"
-    "img img img img"
-    "main main main main"
-    "main main main main"
-    "label label label label"
-    "icon icon rep rep"
-    "icon icon rep rep";
+    "title title title title button"
+    "img img img main main"
+    "img img img main main"
+    "img img img main main"
+    "label label label label label"
+    "icon icon icon rep rep"
+    "icon icon icon rep rep";
     border: solid #a14e76 5px;
   }
-    // background:#a12e9446;
-
-// .entry-info-holder:active{
-//     border-color: var(--btn-color);
-//     box-shadow: 0 0 1em .25em var(--glow-color),
-//            0 0 4em 2em var(--glow-spread-color),
-//            inset 0 0 .75em .25em var(--glow-color);
-// }
-
-// .entry-remove{
-
-// }
 
 .entry-text {
     color: #a14e76;
+    font-family: "satisfy", cursive;
+    font-size: 2.5vw;
 }
 
 .entry-title{
     grid-area: title;
     font-family: "satisfy", cursive;
     font-size: 3.7vw;
-    color: #a14e76;
+    color: var(--glow-color);
     justify-items: center;
     padding-left: 4vw;
 }
 
 .entry-remove{
+    justify-self: center;
     grid-area: button;
-    height: 2.5vw;
-    width: 4vw;
     align-self: center;
+    justify-self: left;
+    cursor: pointer;
 }
 
 .entry-item{
@@ -74,27 +59,27 @@
 .weather-label{
     grid-area: label;
     justify-self: center;
-    align-self: center;
+    align-self: flex-end;
     font-family: "satisfy", cursive;
     font-size: 3vw;
-    color: #a14e76;
+    color: var(--glow-color);
 }
 
 .entry-img-holder {
     grid-area: img;
     width: 100%;
-    // height: 100vh;
     display: flex;
     justify-content: center;
 }
 
 .entry-img {
-    width: 50%;
+    width: 78%;
+    overflow: hidden;
     background-repeat: no-repeat;
-    opacity:0.5;
-    height: 100%;
-    background-size: contain;
+    opacity: 0.35;
     background-position: center;
+    border-radius: 8px;
+    padding-bottom: 10px;
 }
 
 .entry-main{
@@ -102,23 +87,14 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
 }
-
-// #weather-box{
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: center;
-//     align-items: center;
-//     position: relative;
-// }
 
 #weather-icon{
     grid-area: icon;
     display: flex;
     justify-content: center;
     align-items: center;
-    // position: absolute;
 }
 
 #weather-report{
@@ -126,18 +102,18 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-self: center;
-    // position: absolute;
+    align-self: flex-start;
+}
+
+.weather-desc{
+    width: 20vw;
 }
 
 .icon {
     position: relative;
     display: inline-block;
-    // width: 5vh;
-    // height: 3.5vh;
     font-size: 0.9vw;
     transform: scale(2);
-    /* control icon size here */
 }
 
 .cloud {
@@ -186,7 +162,6 @@
     width: 2.5em;
     height: 2.5em;
     margin: -1.25em;
-    /* background: currentColor; */
     border-radius: 50%;
     box-shadow: 0 0 0 0.375em #fff;
     animation: spin 12s infinite linear;
@@ -426,4 +401,155 @@
 
 .rainy {
     display: none;
+}
+
+// larger screens
+@media screen and (min-width: 800px) {
+    .entry-info-holder{
+      grid-template-columns: 0.7fr 0.6fr 0.4fr 0.6fr 1fr 0.5fr;
+      grid-template-rows: 0.2fr 0.5fr 0.5fr 0.5fr 0.5fr 0.85fr 0.85fr;
+      grid-template-areas:
+          "title title title title title button"
+          "img img img img main main"
+          "img img img img main main"
+          "img img img img main main"
+          "label label label label label label"
+          "icon icon rep rep rep rep"
+          "icon icon rep rep rep rep";
+    }
+  
+    .entry-title{
+      font-size: 3vw;
+  }
+  
+  #weather-report {
+      justify-items: left;
+  }
+  
+  .entry-text {
+      font-size: 1.5vw;
+  }
+  
+  .entry-item{
+      font-size: 1.5vw;
+      padding: 10px;
+  }
+  
+  .weather-item{
+      font-size: 1.5vw;
+  }
+  
+  #weather-icon{
+      justify-self: end;
+  }
+  
+  .weather-label{
+      font-size: 2.5vw;
+  }
+  
+  .icon{
+      transform: scale(1.3);
+  }
+  
+  }
+
+// Grid for mobile views but also needed for larger style vertical viewport tablets e.g. ipad pro
+@media screen and (max-width: 500px), (max-width: 1024px) and (min-height: 1080px) {
+    .entry-info-holder{
+        grid-template-columns: 0.6fr 0.6fr 0.6fr 0.5fr;
+        grid-template-rows: 0.7fr 0.5fr 0.5fr 0.5fr 0.6fr 0.3fr 0.6fr 0.6fr;
+        grid-template-areas:
+            "title title title button"
+            "img img img img"
+            "img img img img"
+            "img img img img"
+            "main main main main"
+            "label label label label"
+            "icon icon rep rep"
+            "icon icon rep rep";
+    }
+        
+    .entry-title{
+        align-self: center;
+        justify-self: center;
+        font-size: 6vw;
+    }
+
+    #weather-report {
+        align-self: center;
+    }
+
+    .entry-text {
+        font-size: 3.5vw;
+    }
+
+    .entry-item{
+        font-size: 3.5vw;
+        padding: 10px;
+    }
+    
+    .weather-item{
+        font-size: 3.5vw;
+    }
+    
+    .weather-label{
+        font-size: 4.5vw;
+    }
+
+    .weather-desc{
+        width: 30vw;
+    }
+}
+
+// medium device viewports e.g. tablets
+@media screen and (max-width: 800px) and (min-width: 500px) {
+        
+    .entry-title{
+        align-self: center;
+        justify-self: center;
+        font-size: 5vw;
+    }
+
+    #weather-report {
+        align-self: center;
+        justify-self: left;
+    }
+
+    .entry-text {
+        font-size: 2.5vw;
+    }
+
+    .entry-item{
+        font-size: 2.5vw;
+        padding: 10px;
+    }
+    
+    .weather-item{
+        font-size: 2.5vw;
+    }
+    
+    .weather-label{
+        font-size: 4vw;
+    }
+    
+    .weather-desc{
+        width: 25vw;
+    }
+
+  }
+
+// For Ipad pros and other larger style or tablet esque devices using vertical viewport
+@media screen and (max-width: 1024px) and (min-height: 1080px) {
+    .entry-main > * {
+        font-size: 2vw;
+    }
+    #weather-report > * {
+        font-size: 2vw;
+    }
+    #weather-icon {
+        justify-self: center;
+    }
+    .icon {
+        transform: scale(2.5);
+    }
 }

@@ -68,7 +68,6 @@ async function getWeatherbitData(geonames, countdown) {
     };
     const weatherRes = await got(`${weatherBaseURL}?lat=${geonames.lat}&lon=${geonames.lng}&units=I&key=${weatherApiKey}`);
     const weatherJson = JSON.parse(weatherRes.body);
-    console.log(`Countdown: ${countdown}`)
     if (countdown < 16) {
         const firstDayOfWeather = weatherJson.data[countdown];
         weatherBitData.description = firstDayOfWeather?.weather?.description;
@@ -77,7 +76,7 @@ async function getWeatherbitData(geonames, countdown) {
         weatherBitData.min_temp = firstDayOfWeather?.min_temp;
     } else {
         const todayWeather = weatherJson.data[0];
-        weatherBitData.description = "Trip is too far in the future. Displaying current weather";
+        weatherBitData.description = "Trip too far away. This is current weather";
         weatherBitData.code = todayWeather?.weather?.code;
         weatherBitData.max_temp = todayWeather?.max_temp;
         weatherBitData.min_temp = todayWeather?.min_temp;
@@ -87,6 +86,9 @@ async function getWeatherbitData(geonames, countdown) {
 
 // Setup POST route for creating an entry
 app.post('/entry', async (req, res) => {
+
+    console.log(JSON.stringify(req.body));
+
     const city = req.body.city;
     const startDate = req.body.startDate;
     const endDate = req.body.endDate;

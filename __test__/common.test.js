@@ -20,6 +20,13 @@ const mockTravelEntry = {
 
 describe('Expects functions for renderEntry to update UI', () => {
     test('Expects some success from rendering an entry', () => {
+        window.flickCarousel = {};
+        window.flickCarousel.remove = () => void (0);
+        window.flickCarousel.insert = ([cell], ind) => document.body.appendChild(cell);
+        window.flickCarousel.select = () => void (0);
+        const mule = document.createElement('div');
+        mule.innerHTML = '<div class="flickity-slider"><div class="cell-carousel"></div></div>';
+        document.body.appendChild(mule);
         renderEntry(mockTravelEntry);
         const entryStart = document.querySelector('.entry-startDate');
         const entryEnd = document.querySelector('.entry-endDate');
@@ -27,11 +34,11 @@ describe('Expects functions for renderEntry to update UI', () => {
         const entryMaxTemp = document.querySelector('.weather-high');
         const entryMinTemp = document.querySelector('.weather-low');
         const entryDesc = document.querySelector('.weather-desc');
-        expect(entryStart.innerHTML).toEqual(mockTravelEntry.startDate);
-        expect(entryEnd.innerHTML).toEqual(mockTravelEntry.endDate);
-        expect(entryLength.innerHTML).toEqual(mockTravelEntry.tripLength);
-        expect(entryMaxTemp.innerHTML).toEqual(`${mockTravelEntry.max_temp}°F`);
-        expect(entryMinTemp.innerHTML).toEqual(`${mockTravelEntry.min_temp}°F`);
+        expect(entryStart.innerHTML).toEqual(`<span class=\"entry-text\">Start Date:</span> ${mockTravelEntry.startDate}`);
+        expect(entryEnd.innerHTML).toEqual(`<span class=\"entry-text\">End Date:</span> ${mockTravelEntry.endDate}`);
+        expect(entryLength.innerHTML).toEqual(`<span class=\"entry-text\">Trip Length:</span> ${mockTravelEntry.tripLength}`);
+        expect(entryMaxTemp.innerHTML).toEqual(`<span class=\"entry-text\">High:</span> ${mockTravelEntry.max_temp}°F`);
+        expect(entryMinTemp.innerHTML).toEqual(`<span class=\"entry-text\">Low:</span> ${mockTravelEntry.min_temp}°F`);
         expect(entryDesc.innerHTML).toEqual(mockTravelEntry.description);
     });
     test('Expects all weather icons to meet within designated weather type ranges', () => {
@@ -65,7 +72,10 @@ describe('Expects functions for renderEntry to update UI', () => {
                 .forEach((e) => expect(fragment.querySelector(`.${e}`).style.display).toEqual('none'));
 
         });
+        const defaultConsoleWarn = globalThis.console.warn;
+        globalThis.console.warn = () => void (0);
         setWeatherIcon(10000, fragment);
         Object.keys(weatherIconMap).forEach((e) => expect(fragment.querySelector(`.${e}`).style.display).toEqual('none'));
+        globalThis.console.warn = defaultConsoleWarn;
     });
 });

@@ -19,12 +19,11 @@ body {
 //  }
 
 .selected-cell {
-  border-color: var(--glow-color);
-  box-shadow: 0 0 1em .25em var(--glow-color),
-         0 0 4em 2em var(--glow-spread-color),
-        //  inset 0 0 .75em .25em var(--glow-color);
+  // border-color: var(--glow-color);
+  box-shadow: 0 0 0.5em 0.3em var(--glow-color), 
+  0 0 1.5em 1em var(--glow-spread-color);
 }
 
 .flickity-viewport {
-  overflow: visible;
+  overflow: hidden;
 }

@@ -10,13 +10,15 @@
 
 html{
     height: 100%; 
+    width: 100%;
+    font-size: 100%;
 }
 
 body{
     background-color: #000;
     color: white;
     margin: 0;
-    // height: 100%;
+    overflow-x: hidden;
 }
 
 option {
@@ -41,15 +43,6 @@ option {
     justify-content: center;
 }
 
-// #entry-container-container{
-//     display: flex;
-//     flex-direction: row;
-//     width: 100%;
-//     height: 100vh;
-//     align-items: center;
-//     justify-content: center;
-// }
-
 #entry-container{
     width: 100%;
     height: 75vh;
@@ -72,8 +65,6 @@ option {
     font-family: 'satisfy', cursive;
     background-color: black;
     color: white;
-    // background-color:rgba(255, 255, 255, 100%);
-    // color: black;
     font-size: 10vw;
     font-weight: bold;
     width: 100%;
@@ -81,20 +72,14 @@ option {
     top: unset;
     left: unset;
     transform: initial;
-    // flex: 1 1 100%;
     text-align: center;
     margin: 0;
-    // margin-top: 205px;
     mix-blend-mode: multiply;
-    // mix-blend-mode: screen;
-    // border-top: 5px solid #fa7147;
-    // border-bottom: 5px solid #fa7147;
     position: absolute;
-    // margin-bottom: 220px;
-    // -webkit-text-stroke: 5px rgb(255, 255, 255);
     z-index: 5;
-
+    
     &::before {
+        overflow-x: hidden;
         font-family:'orienta', sans-serif;
         font-size: 1.5vw;
         margin: 0;
@@ -116,7 +101,6 @@ option {
 
 #main-title-highlight{
     font-family: 'satisfy', cursive;
-    // background-color: black;
     color: rgba($color: #fff, $alpha: .01);
     font-size: 10vw;
     font-weight: bold;
@@ -125,11 +109,8 @@ option {
     top: unset;
     left: unset;
     transform: initial;
-    // flex: 1 1 100%;
     text-align: center;
     margin: 0;
-    // border-top: 5px solid rgba(255, 255, 255, 0.87);
-    // border-bottom: 5px solid rgba(255, 255, 255, 0.87);
     border-top: 5px solid var(--glow-color);
     border-bottom: 5px solid var(--glow-color);
     -webkit-text-stroke: 20px rgba(255,255,255,0.07);
@@ -138,35 +119,28 @@ option {
     inset 0 0 1em 0.25em var(--glow-color);
     z-index: 1;
     position: absolute;
-
-    // border-top: 5px solid #69e5f3;
-    // border-bottom: 5px solid var(--glow-color);
-    // -webkit-text-stroke: 20px rgba(255, 255, 255, 0.07);
-    // box-shadow: 0 0 0.3em 0.1em #81b4e0, 0 0 1em 0.1em #81b4e0c2, inset 0 0 1em 0.25em #81b4e0ba;
-
-    &::after {
-        content: "TRAVEL IS NEVER A MATTER OF MONEY BUT OF COURAGE";
-        width: 50%;
-        position: absolute;
-        bottom: 0;
-        left: 20%;
-        font-size: 1.5vw;
-        background: var(--glow-color);
-        padding-bottom: 3px;
-    }
 }
 
 #form-info-holder{
     display:flex;
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     position: absolute;
-    bottom: 10vh;
+    bottom: 10%;
     z-index: 30;
 }
 
 #date-box{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+#location-box{
     display:flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -182,14 +156,14 @@ option {
     justify-content: space-evenly;
     height: fit-content;
     padding: 10px 0 10px 0;
-    width: 12vw;
+    width: 10em;
     background: #a12e9446;
     box-shadow: 0 0 3em 0.5em var(--btn-color);
     border: none;
     border-radius: 8px;
-    color: #a14e76;
+    color: var(--glow-color);
     font-family: "orienta", sans-serif;
-    font-size: 1.4vw;
+    font-size: 0.9em;
     transition: all 0.3s;
     margin: 5px;
   }
@@ -201,25 +175,29 @@ option {
            inset 0 0 .75em .25em var(--glow-color);
    }
 
-// #entry-submit{
-// }
+#entry-submit{
+    cursor: pointer;
+}
 
 #arrow-container-container {
-    position: absolute;
-    bottom: 5%;
-    }
+    height: 100%;
+    display: flex;
+    flex-direction: column-reverse;
+    padding-bottom: 5px;
+    text-decoration: none;
+}
     
 // https://cssbuttons.io/detail/cssbuttons-io/funny-dog-69
-button{
+button {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     outline: none;
     border: .25em solid var(--glow-color);
-    // padding: 0.5em 1.2em;
+    width: 3vw;
+    height: 2vw;
     color: var(--glow-color);
-    // font-size: 16px;
     font-weight: bold;
     background-color: var(--btn-color);
     border-radius: 16em;
@@ -234,18 +212,28 @@ button{
 
 }
 
-#arrow-container{
-    position: absolute;
+option {
+    background-color: #a12e9446;
+}
 
-    &::before {
-        content: "VIEW TRIP ENTRIES";
-        color: #a14e76;
-        position: absolute;
-        top: -100%;
-        width: 400px;
-        color: white;
-        font-weight: bold;
-    }
+.more-button{
+    width: max-content;
+}
+
+#arrow-container{
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.4vw;
+    border-radius: 1.1em;
+    font-size: 1.5vw;
+    height: max-content;
+    width: max-content;
+}
+
+#arrow-scroll-wrapper {
+    text-decoration: none;
 }
 
 button::after {
@@ -275,3 +263,74 @@ button:active {
            0 0 2.5em 2em var(--glow-spread-color),
            inset 0 0 .5em .25em var(--glow-color);
    }
+
+#errBox{
+    position: absolute;
+    font-family: "orienta", sans-serif;
+    font-size: 3vw;
+    color: red;
+    bottom: 20%;
+}
+
+@media screen and (max-width: 600px) {
+
+button{
+    width: 8vw;
+    height: 6vw;
+}
+
+#arrow-container{
+    font-size: 3.5vw;
+}
+
+#errBox{
+    bottom: 35%;
+    font: 2.5vw;
+}
+
+#form-info-holder {
+    bottom: 10%;
+}
+
+.user-fields{
+    width: 10em;
+    font-size: 0.8em;
+  }
+
+}
+
+@media screen and (max-width: 800px) and (min-width: 600px) {
+
+button{
+    width: 9vw;
+    height: 7vw;
+}
+    
+#arrow-container{
+    font-size: 3.5vw;
+}
+    
+#errBox{
+    bottom: 30%;
+}
+    
+#form-info-holder {
+    bottom: 12%;
+}
+    
+.user-fields{
+    width: 8em;
+    font-size: 1.5em;
+}   
+}
+
+@media screen and (min-width: 800px) {
+button{
+    width: 3.5vw;
+    height: 2vw;
+}
+
+#errBox{
+    font-size: 1.5vw;
+}
+}

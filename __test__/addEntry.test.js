@@ -19,11 +19,14 @@ describe('Expects functions for addEntry to return based on given data', () => {
         expect(validateInputs(fakeInput)).toBeFalsy();
     });
     test('Expects countdown days to return valid amount of days based on date', () => {
-        const oct_18_2021 = 1634605056805;
-        const date = format(oct_18_2021, 'yyyy-MM-dd');
+        const defaultDateNow = globalThis.Date.now;
+        globalThis.Date.now = () => "2021-10-22T07:29:29.743Z";
+        const oct_22_2022 = new Date("2022-10-22T07:29:29.743Z");
+        const date = format(oct_22_2022, 'yyyy-MM-dd');
 
-        const countdown = getCountdownDays('2022-10-18');
+        const countdown = getCountdownDays(date);
         expect(countdown).toEqual(364);
+        globalThis.Date.now = defaultDateNow;
     });
     test('Expects trip length to return valid length based on provided dates', () => {
         let tripLength = getTripLength('2021-01-01', '2021-01-02');

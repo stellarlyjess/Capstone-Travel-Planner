@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capstone Travel Planner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <!-- https://net-raft.com/Questions/2627/dropdown-list-of-country-state-and-city-using-javascript/2627 -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//geodata.solutions/includes/countrystatecity.js"></script>
+    <!-- For the travel entry carousel -->
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+</head>
+
+<body>
+    <div id="flex-holder">
+        <div id="header-block">
+            <div id="title-block">
+                <h1 id="main-title">Wanderlust Playlist</h1>
+                <h1 id="main-title-highlight">Wanderlust Playlist</h1>
+                <div id="arrow-container-container">
+                    <a data-scroll href="#entry-container" id="arrow-scroll-wrapper">
+                        <button id="arrow-container">
+                            <div class="more-button">VIEW TRIPS</div>
+                            <div class="fas fa-angle-double-down"></div>
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div id="form-info-holder">
+                <div id="date-box">
+                    <span id="entry-start" class="user-fields">
+                        <div id="entry-start-text">Start Date</div>
+                        <div class="far fa-calendar-alt"></div>
+                    </span>
+                    <span>=></span>
+                    <span id="entry-end" class="user-fields">
+                        <div id="entry-end-text">End Date</div>
+                        <div class="far fa-calendar-alt"></div>
+                    </span>
+                </div>
+                <!-- https://net-raft.com/Questions/2627/dropdown-list-of-country-state-and-city-using-javascript/2627 -->
+                <div id="location-box">
+                    <select name="country" class="user-fields countries entry-country" id="countryId">
+                        <option selected value="">Select Country</option>
+                    </select>
+                    <select name="state" class="user-fields states" id="stateId">
+                        <option selected value="">Select Region</option>
+                    </select>
+                    <select name="city" class="user-fields cities entry-city" id="cityId">
+                        <option selected value="">Select City</option>
+                    </select>
+                    <button id="entry-submit">
+                        <div class="fas fa-plus"></div>
+                    </button>
+                </div>
+                <br>
+            </div>
+            <div id="errBox"></div>
+        </div>
+        <br>
+        <div id="entry-container">
+            <!-- This is where new entries will be loaded into the page dynamically from the renderEntry function -->
+
+            <div class="carousel" data-flickity>
+                <div class="carousel-cell"></div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

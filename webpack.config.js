@@ -25,13 +25,12 @@ const config = {
     output: {
         path: path.resolve(__dirname, 'dist'),
     },
-    // resolve: {
-    //     extensions: ['js', '*']
-    // },
     devtool: "source-map",
     target: 'web',
     devServer: {
-        host: 'localhost',
+        host: '192.168.1.105',
+        allowedHosts: 'http://stellarlyjess/',
+        host: '0.0.0.0',
         historyApiFallback: true,
         compress: true,
         hot: false,
@@ -45,7 +44,7 @@ const config = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './src/client/html/index.html',
+            template: './src/client/html/views/index.html',
             filename: 'index.html'
         }),
         ...prodPlugins,
@@ -93,8 +92,7 @@ module.exports = () => {
     if (isProduction) {
         config.mode = 'production';
 
-        // TODO: uncomment this when production ready
-        // config.plugins.push(new WorkboxWebpackPlugin.GenerateSW());
+        config.plugins.push(new WorkboxWebpackPlugin.GenerateSW());
 
     } else {
         config.mode = 'development';

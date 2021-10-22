@@ -7,7 +7,8 @@
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
-    "serve": "webpack serve"
+    "serve": "webpack serve",
+    "server": "nodemon ./src/server -w ./src/server"
   },
   "author": "Jessica Nicholl",
   "license": "ISC",
@@ -43,6 +44,7 @@
     "@fortawesome/fontawesome-free": "^5.15.4",
     "got": "^11.8.2",
     "native-datepicker": "^1.1.1",
+    "nodemon": "^2.0.14",
     "smooth-scroll": "^16.1.3"
   }
 }
