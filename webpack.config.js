@@ -28,19 +28,19 @@ const config = {
     devtool: "source-map",
     target: 'web',
     devServer: {
-        host: '192.168.1.105',
-        allowedHosts: 'http://stellarlyjess/',
-        host: '0.0.0.0',
+//         host: '192.168.1.105',
+//         allowedHosts: 'http://stellarlyjess/',
+//         host: '0.0.0.0',
         historyApiFallback: true,
         compress: true,
         hot: false,
         port: 8080,
         // Add headers for access control allow origin CORs to work between dev server and actual nodejs server
-//         headers: {
-//             "Access-Control-Allow-Origin": "*",
-//             "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-//             "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
-//         }
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+            "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+        }
     },
     plugins: [
         new HtmlWebpackPlugin({
