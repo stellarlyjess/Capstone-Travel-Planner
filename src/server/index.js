@@ -30,7 +30,7 @@ app.get('/', function (req, res) {
 })
 
 // Setup Server
-const port = 8000;
+const port = 3000;
 const server = app.listen(port, () => console.log(`Listening on port: ${port}`));
 
 const travelEntries = {};
@@ -87,7 +87,7 @@ async function getWeatherbitData(geonames, countdown) {
 // Setup POST route for creating an entry
 app.post('/entry', async (req, res) => {
 
-    console.log(JSON.stringify(req.body));
+    // console.log(JSON.stringify(req.body));
 
     const city = req.body.city;
     const startDate = req.body.startDate;
@@ -127,13 +127,13 @@ app.post('/entry', async (req, res) => {
 
 // Setup GET Route to get all entries
 app.get('/entry', (req, res) => {
-    console.log('sending all travel entries');
+    // console.log('sending all travel entries');
     res.send(Object.entries(travelEntries));
 });
 
 // Setup DELETE Route to delete a specific entry
 app.delete('/entry/:entryID', (req, res) => {
-    console.log(`deleting travel entry: ${req.params.entryID}`);
+    // console.log(`deleting travel entry: ${req.params.entryID}`);
     if (travelEntries[req.params.entryID]) {
         delete travelEntries[req.params.entryID];
         res.sendStatus(200);

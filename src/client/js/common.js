@@ -14,7 +14,6 @@ export function createFlickity() {
         pageDots: false,
     });
     window.flickCarousel.on('change', (index) => {
-        console.log(window.flickCarousel.cells)
         window.flickCarousel.cells.forEach(({ element }) => element?.firstChild?.classList.remove('selected-cell'));
         window.flickCarousel.selectedElement?.firstChild.classList.add('selected-cell');
     });
@@ -65,6 +64,13 @@ export function hideCarouselDummyCell() {
 // HACK: flickity seems to require atleast one carousel cell to start, so remove the dummy once a real entry comes along
 function appendToCarousel(fragment) {
     const carouselContainer = document.querySelector('.flickity-slider');
+    const loadingSpinnerContainer = document.querySelector('#spinner-loader-container');
+    if (loadingSpinnerContainer.style)
+        loadingSpinnerContainer.style.display = 'none'
+    // need to unhide carousel here after loading spinner goes  away
+    if (carouselContainer.style) {
+        carouselContainer.style.display = 'inherit';
+    }
     [...carouselContainer.childNodes].forEach((el) => !el.firstChild && window.flickCarousel.remove(el));
 
     // Add the new entry HTML to an actual DOM element

@@ -1,5 +1,6 @@
 // File containing functions associated with adding a new travel entry
 import { renderEntry } from './common.js'
+import SmoothScroll from 'smooth-scroll';
 import { parse, differenceInDays } from 'date-fns';
 
 // (0) Create event listener to call generate post function when post button is clicked
@@ -10,7 +11,16 @@ export function registerSubmitEvent() {
 // (1) Main function: pull api data, then store data in consts to use, then call add entry function to set keys, then update the UI
 async function addEntry(event) {
     event.preventDefault();
+    const scroll = new SmoothScroll('a[href*="#"]'); /// initialize smooth scrolling
+    const carouselContainer = document.querySelector('.flickity-slider');
+    if (carouselContainer.style)
+        carouselContainer.style.display = 'none';
+    const loadingSpinnerContainer = document.querySelector('#spinner-loader-container');
+    if (loadingSpinnerContainer.style)
+        loadingSpinnerContainer.style.display = 'flex'
+
     try {
+
         const entryCreationDate = new Date();
         const entryCity = document.querySelector('.entry-city');
         const entryCountry = document.querySelector('.entry-country');
@@ -20,10 +30,11 @@ async function addEntry(event) {
 
         if (!validateInputs(startDateValue, endDateValue, entryCity)) return;
 
+        scroll.animateScroll(document.getElementById('entry-container'));
         const countdown = getCountdownDays(window.startDateValue);
 
         // See addEntry function for return val
-        const newEntry = await submitEntry('http://localhost:8000/entry', {
+        const newEntry = await submitEntry('/entry', {
             date: entryCreationDate,
             startDate: window.startDateValue,
             endDate: window.endDateValue,
@@ -54,6 +65,8 @@ async function addEntry(event) {
 
 // (2) Function to validate that input fields are valid for adding an entry
 export function validateInputs(...inputs) {
+    const carouselContainer = document.querySelector('.flickity-slider');
+    const loadingSpinnerContainer = document.querySelector('#spinner-loader-container');
     let isInvalid = false;
     const isInvalidInputs = [];
     for (const input of inputs) {
@@ -69,6 +82,13 @@ export function validateInputs(...inputs) {
         errEl.innerHTML = `The following input(s) must be filled out:<br>${isInvalidInputs.toString()}`;
     } else {
         errEl.innerHTML = '';
+    }
+
+    if (isInvalid) {
+        if (carouselContainer.style)
+            carouselContainer.style.display = 'flex';
+        if (loadingSpinnerContainer.style)
+            loadingSpinnerContainer.style.display = 'none'
     }
 
     return !isInvalid;

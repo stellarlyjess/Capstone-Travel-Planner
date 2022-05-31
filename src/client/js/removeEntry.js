@@ -7,7 +7,7 @@ async function removeEntry(event) {
     const entryInfoHolder = event.target.parentElement;
     const selectedEntryId = entryInfoHolder.dataset.entryid;
 
-    const reqUrl = 'http://localhost:8000/entry';
+    const reqUrl = '/entry';
     const res = await fetch(`${reqUrl}/${selectedEntryId}`, {
         method: 'DELETE',
         credentials: 'same-origin',
